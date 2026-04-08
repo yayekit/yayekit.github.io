@@ -21,3 +21,4 @@ Single-page static site — no build step, no bundler, no framework. All markup,
 - Support dark mode via `prefers-color-scheme` CSS media query.
 - No external dependencies or CDN links — zero-dependency site.
 - Resume PDF (`keith_yemelianovskyi_resume.pdf`) is the source of truth for content.
+- **Never** add AI co-authorship lines (`Co-Authored-By: Claude`, etc.) to commits, PRs, or code comments. No AI attribution of any kind in the repository.
