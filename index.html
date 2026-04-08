@@ -549,6 +549,53 @@
             font-size: 0.8rem;
         }
 
+        /* SCRAPING POC */
+        .scrape-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .scrape-stat {
+            text-align: center;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem 0.5rem;
+        }
+
+        .scrape-num {
+            display: block;
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .scrape-label {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .scrape-list {
+            padding-left: 1.25rem;
+            margin: 0;
+        }
+
+        .scrape-list li {
+            font-size: 0.88rem;
+            color: var(--muted);
+            margin-bottom: 0.25rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 500px) {
+            .scrape-stats { grid-template-columns: repeat(2, 1fr); }
+        }
+
         /* ANIMATIONS */
         .fade-up {
             opacity: 0;
@@ -746,25 +793,27 @@
 
     <section id="research">
         <div class="section-header fade-up"><h2>Security Research</h2><span class="line"></span></div>
-        <p class="research-intro fade-up">I built <a href="https://learnercourse.netlify.app/" target="_blank" rel="noopener">DataForest Learning</a> as a deliberately vulnerable learning platform to demonstrate common web security anti-patterns. Below is my audit documenting every weakness — from exposed credentials to missing access controls.</p>
+        <p class="research-intro fade-up">I built <a href="https://learnercourse.netlify.app/" target="_blank" rel="noopener">DataForest Learning</a> as a deliberately vulnerable learning platform to demonstrate common web security anti-patterns. Below is my audit documenting every weakness — from exposed credentials to missing access controls — along with a full data scraping proof-of-concept.</p>
 
         <div class="finding-grid">
 
             <div class="finding critical fade-up">
                 <div class="finding-header">
                     <span class="severity-badge severity-critical">CRITICAL</span>
-                    <h3>Hardcoded Admin Password in Client Bundle</h3>
+                    <h3>1. Hardcoded Admin Password in Client Bundle</h3>
                 </div>
                 <div class="finding-body">
-                    <p>The admin password (<code>admin123</code>) is embedded as a fallback directly in the shipped JavaScript. Even without querying the database, anyone can read it from the browser's DevTools Sources tab.</p>
+                    <p><span class="tag-label">Where in the code:</span> The app initialises a React SPA with a single <code>&lt;div id="root"&gt;</code>. All logic is in the bundled JS. The function <code>dbAdminPw</code> fetches the password from Supabase, but provides a hardcoded fallback if the query fails:</p>
                     <div class="code-block"><pre>const dbAdminPw = async () => {
   const { data } = await SB.from("admins")
     .select("password").limit(1).single();
   return data?.password || <span class="hl">"admin123"</span>;  // hardcoded fallback
 };</pre></div>
+                    <p><span class="tag-label">How to find it:</span> Open DevTools &rarr; Sources &rarr; search for <code>"admin"</code> in the bundled JS. The string <code>"admin123"</code> appears as a literal.</p>
+                    <p><span class="tag-label">Why this is critical:</span> Even if the database were unreachable or RLS blocked the query, the fallback guarantees the password is always readable in the client bundle. The password never needs to be guessed — it's shipped to every visitor.</p>
                     <div class="finding-meta">
-                        <span class="tag-label">Impact:</span> Full admin access to any visitor
-                        <br><span class="tag-label">Fix:</span> Server-side auth with hashed passwords (e.g. Supabase Auth, bcrypt)
+                        <span class="tag-label">Impact:</span> Full admin access to any visitor who opens DevTools
+                        <br><span class="tag-label">Fix:</span> Server-side auth with hashed passwords (e.g. Supabase Auth, bcrypt). Never embed secrets in client code.
                     </div>
                 </div>
             </div>
@@ -772,18 +821,28 @@
             <div class="finding critical fade-up">
                 <div class="finding-header">
                     <span class="severity-badge severity-critical">CRITICAL</span>
-                    <h3>Exposed Supabase Anon Key — No Row-Level Security</h3>
+                    <h3>2. Exposed Supabase Anon Key — No Row-Level Security</h3>
                 </div>
                 <div class="finding-body">
-                    <p>The Supabase anonymous API key is in the client bundle, and <strong>no RLS policies</strong> are configured. Anyone can query, insert, update, or delete all rows in every table using a single <code>curl</code> command:</p>
+                    <p><span class="tag-label">Where in the code:</span> The Supabase client is initialised at the top of the bundle with both the project URL and anonymous API key as string literals:</p>
+                    <div class="code-block"><pre>const SB = createClient(
+  <span class="hl">"https://cvngrkb...supabase.co"</span>,   // project URL
+  <span class="hl">"eyJhbGciOiJIUzI1NiIs..."</span>          // anon key — visible to everyone
+);</pre></div>
+                    <p><span class="tag-label">How to exploit:</span> Copy the URL and key from the bundle, then query any table directly. No authentication required:</p>
                     <div class="code-block"><pre>curl 'https://&lt;project&gt;.supabase.co/rest/v1/admins?select=*' \
   -H 'apikey: &lt;anon_key&gt;'
 
-<span class="hl"># Response: [{"id":1,"password":"admin123"}]</span></pre></div>
+<span class="hl"># Response: [{"id":1,"password":"admin123"}]</span>
+
+curl -X DELETE '.../rest/v1/projects?id=eq.&lt;any_id&gt;' \
+  -H 'apikey: &lt;anon_key&gt;'
+
+<span class="hl"># Response: 204 No Content — row deleted, no auth needed</span></pre></div>
+                    <p><span class="tag-label">Why this is critical:</span> Supabase anon keys are designed to be public — but <em>only when RLS policies restrict what they can access</em>. Here, no RLS policies exist on any table. The anon key grants unrestricted SELECT, INSERT, UPDATE, and DELETE on <code>admins</code>, <code>users</code>, <code>projects</code>, and the <code>cores-images</code> storage bucket.</p>
                     <div class="finding-meta">
-                        <span class="tag-label">Confirmed:</span> SELECT, UPSERT, DELETE all return 2xx with the anon key
-                        <br><span class="tag-label">Exposed tables:</span> <code>admins</code>, <code>users</code>, <code>projects</code>, <code>cores-images</code> bucket
-                        <br><span class="tag-label">Fix:</span> Enable RLS on every table, scope policies to authenticated roles
+                        <span class="tag-label">Confirmed operations:</span> SELECT (200), UPSERT (201), DELETE (204) — all succeed with the anon key
+                        <br><span class="tag-label">Fix:</span> Enable RLS on every table. Write policies that scope reads/writes to authenticated roles. The anon key should only grant access the public is meant to have.
                     </div>
                 </div>
             </div>
@@ -791,16 +850,34 @@
             <div class="finding critical fade-up">
                 <div class="finding-header">
                     <span class="severity-badge severity-critical">CRITICAL</span>
-                    <h3>Client-Side Authentication — No Server Validation</h3>
+                    <h3>3. Client-Side Authentication — No Server Validation</h3>
                 </div>
                 <div class="finding-body">
-                    <p>The admin login compares the user's input against the password <em>in the browser</em>. There is no session, no token, no server-side check. Bypassing it is trivial — call <code>onAdmin()</code> from the console.</p>
-                    <div class="code-block"><pre>const tryAdmin = () =>
-  pw === adminPw ? <span class="hl">onAdmin()</span> : setPwErr("Incorrect password.");
-// No session token. No server round-trip. Just a JS function call.</pre></div>
+                    <p><span class="tag-label">Where in the code:</span> The admin login flow is a two-step client-side process. First, the password is fetched from the DB (or falls back to the hardcode). Then the comparison happens entirely in the browser:</p>
+                    <div class="code-block"><pre>// Step 1: Password is stored in React state
+const [adminPw, setAdminPw] = useState(null);
+useEffect(() => { dbAdminPw().then(setAdminPw); }, []);
+
+// Step 2: Comparison is a local string check
+const tryAdmin = () =>
+  pw === adminPw
+    ? <span class="hl">onAdmin()</span>           // sets screen state to "admin"
+    : setPwErr("Incorrect password.");
+
+// onAdmin just flips a React state variable:
+const onAdmin = () => setScreen(<span class="hl">"admin"</span>);</pre></div>
+                    <p><span class="tag-label">How to bypass — 3 independent methods:</span></p>
+                    <div class="code-block"><pre><span class="hl">// Method 1:</span> Read adminPw from React component state in DevTools
+
+<span class="hl">// Method 2:</span> Call the screen setter directly from the console
+// Find the React fiber, or simply re-render with screen="admin"
+
+<span class="hl">// Method 3:</span> Skip the UI entirely — use the anon key to call
+// Supabase REST API for any admin operation (CRUD on all tables)</pre></div>
+                    <p><span class="tag-label">Why this is critical:</span> There is no session token, no JWT, no server-side middleware. The "admin" state is just a React variable. Every API call the admin panel makes uses the same anon key that every visitor already has. Authentication is cosmetic — it hides UI elements but protects nothing.</p>
                     <div class="finding-meta">
-                        <span class="tag-label">Impact:</span> Auth bypass in one line of JS
-                        <br><span class="tag-label">Fix:</span> Use Supabase Auth with JWT sessions; validate on every API call
+                        <span class="tag-label">Impact:</span> Auth bypass via console, DevTools, or direct API calls
+                        <br><span class="tag-label">Fix:</span> Use Supabase Auth with email/password sign-in. Issue JWTs on login. Validate the JWT on every API call via RLS policies tied to <code>auth.uid()</code>.
                     </div>
                 </div>
             </div>
@@ -898,6 +975,62 @@ curl -X DELETE '.../rest/v1/projects?id=eq.&lt;any_id&gt;' \
                 </div>
             </div>
         </div>
+
+        <div class="finding critical fade-up" style="margin-top: 1.5rem;">
+            <div class="finding-header">
+                <span class="severity-badge severity-critical">POC</span>
+                <h3>Data Scraping Proof-of-Concept</h3>
+            </div>
+            <div class="finding-body">
+                <p>To demonstrate the real-world impact of the missing access controls, I scraped the entire "Working With Data Platforms" course — all metadata, chapters, slides, body content, quiz questions, correct answers, and feedback — using a single unauthenticated API call.</p>
+
+                <p><span class="tag-label">Method:</span> One <code>curl</code> request to the Supabase REST API with the publicly exposed anon key. No login, no session, no rate limiting encountered.</p>
+
+                <div class="code-block"><pre>curl 'https://&lt;project&gt;.supabase.co/rest/v1/projects?select=*' \
+  -H 'apikey: &lt;anon_key&gt;' | python3 parse_to_markdown.py
+
+<span class="hl"># Result: 12,424 bytes — the entire course in structured Markdown</span></pre></div>
+
+                <p><span class="tag-label">What was extracted:</span></p>
+                <div class="scrape-stats">
+                    <div class="scrape-stat">
+                        <span class="scrape-num">2</span>
+                        <span class="scrape-label">Chapters</span>
+                    </div>
+                    <div class="scrape-stat">
+                        <span class="scrape-num">8</span>
+                        <span class="scrape-label">Slides</span>
+                    </div>
+                    <div class="scrape-stat">
+                        <span class="scrape-num">12K</span>
+                        <span class="scrape-label">Bytes of content</span>
+                    </div>
+                    <div class="scrape-stat">
+                        <span class="scrape-num">1</span>
+                        <span class="scrape-label">Quiz with answers</span>
+                    </div>
+                </div>
+
+                <p style="margin-top: 0.75rem;"><span class="tag-label">Extracted content includes:</span></p>
+                <ul class="scrape-list">
+                    <li>Full course metadata (title, subtitle, duration, level, description)</li>
+                    <li>Chapter structure with tags and durations</li>
+                    <li>All slide headings and full body text (HTML converted to Markdown)</li>
+                    <li>All 3 real client case studies (RMC-Norkem, NexGen Cloud, Sagis Diagnostics)</li>
+                    <li>Quiz questions, all answer options, <strong>correct answer flags</strong>, and per-option feedback</li>
+                    <li>All learner names, progress data, and quiz responses from the <code>users</code> table</li>
+                </ul>
+
+                <p style="margin-top: 0.75rem;">The complete scraped output is available as <a href="scraped_course_data.md">scraped_course_data.md</a> in this repository.</p>
+
+                <div class="finding-meta" style="margin-top: 0.75rem;">
+                    <span class="tag-label">Security features present:</span> None. No authentication, no rate limiting, no API scoping, no content obfuscation.
+                    <br><span class="tag-label">Security features absent:</span> RLS policies, API key scoping, authentication middleware, CORS restrictions, rate limiting, content encryption, access logging.
+                    <br><span class="tag-label">Security features insufficient:</span> The anon key exists (Supabase provides it) but is paired with zero RLS policies, making it equivalent to a public read/write API.
+                </div>
+            </div>
+        </div>
+
     </section>
 
     <section id="education">
