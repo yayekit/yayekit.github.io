@@ -409,36 +409,38 @@
         .research-intro a { color: var(--accent); text-decoration: none; }
         .research-intro a:hover { text-decoration: underline; }
 
-        /* TIMELINE */
+        /* TIMELINE — ZIG-ZAG */
         .audit-timeline {
             position: relative;
-            padding-left: 2.5rem;
         }
 
         .audit-timeline::before {
             content: '';
             position: absolute;
-            left: 0.85rem;
+            left: 50%;
             top: 0;
             bottom: 0;
             width: 2px;
             background: var(--border);
+            transform: translateX(-1px);
         }
 
         .tl-step {
             position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
             margin-bottom: 1.5rem;
         }
 
         .tl-step::before {
             content: attr(data-step);
             position: absolute;
-            left: -2.5rem;
-            top: 1rem;
+            left: 50%;
+            top: 1.1rem;
             transform: translateX(-50%);
-            left: -1.6rem;
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -452,6 +454,10 @@
         .tl-step.tl-vuln::before { background: #c44040; }
         .tl-step.tl-fix::before { background: #3C53A4; }
 
+        /* Zig-zag: vulns left, fixes right */
+        .tl-vuln .tl-card { grid-column: 1; }
+        .tl-fix .tl-card { grid-column: 2; }
+
         .tl-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
@@ -460,12 +466,14 @@
             box-shadow: var(--card-shadow);
         }
 
-        .tl-fix .tl-card {
-            border-left: 3px solid #3C53A4;
+        .tl-vuln .tl-card {
+            border-right: 3px solid #c44040;
+            text-align: left;
         }
 
-        .tl-vuln .tl-card {
-            border-left: 3px solid #c44040;
+        .tl-fix .tl-card {
+            border-left: 3px solid #3C53A4;
+            text-align: left;
         }
 
         .tl-card h3 {
@@ -566,9 +574,17 @@
         }
 
         @media (max-width: 700px) {
-            .audit-timeline { padding-left: 2rem; }
-            .audit-timeline::before { left: 0.55rem; }
-            .tl-step::before { left: -1.35rem; width: 24px; height: 24px; font-size: 0.6rem; }
+            .audit-timeline::before { left: 0.85rem; }
+            .tl-step {
+                grid-template-columns: 1fr;
+                padding-left: 2.5rem;
+                gap: 0;
+            }
+            .tl-step::before { left: 0.85rem; top: 1rem; width: 26px; height: 26px; font-size: 0.6rem; }
+            .tl-vuln .tl-card,
+            .tl-fix .tl-card { grid-column: 1; border-left: 3px solid; border-right: none; }
+            .tl-vuln .tl-card { border-left-color: #c44040; }
+            .tl-fix .tl-card { border-left-color: #3C53A4; }
         }
 
         /* SCRAPING POC */
