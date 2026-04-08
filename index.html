@@ -400,6 +400,155 @@
 
         footer a:hover { text-decoration: underline; }
 
+        /* RESEARCH */
+        .research-intro {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            max-width: 640px;
+        }
+
+        .research-intro a { color: var(--accent); text-decoration: none; }
+        .research-intro a:hover { text-decoration: underline; }
+
+        .finding-grid { display: flex; flex-direction: column; gap: 1rem; }
+
+        .finding {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.25s;
+        }
+
+        .finding:hover {
+            box-shadow: var(--card-hover);
+            transform: translateY(-2px);
+        }
+
+        .finding-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .finding-header h3 { font-size: 0.95rem; font-weight: 700; }
+
+        .severity-badge {
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            padding: 0.25rem 0.6rem;
+            border-radius: 100px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .severity-critical { background: #fef2f2; color: #dc2626; }
+        .severity-high { background: #fff7ed; color: #ea580c; }
+        .severity-medium { background: #fefce8; color: #ca8a04; }
+        .severity-low { background: #f0fdf4; color: #16a34a; }
+
+        @media (prefers-color-scheme: dark) {
+            .severity-critical { background: rgba(220,38,38,0.15); color: #f87171; }
+            .severity-high { background: rgba(234,88,12,0.15); color: #fb923c; }
+            .severity-medium { background: rgba(202,138,4,0.15); color: #facc15; }
+            .severity-low { background: rgba(22,163,74,0.15); color: #4ade80; }
+        }
+
+        .finding-body { padding: 1rem 1.25rem; }
+
+        .finding-body p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+        }
+
+        .finding-body code {
+            background: var(--tag-bg);
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            font-family: "SF Mono", "Fira Code", monospace;
+        }
+
+        .code-block {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.75rem;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+            margin: 0;
+            white-space: pre;
+        }
+
+        .code-block .hl { color: #f87171; font-weight: 600; }
+
+        .finding-meta {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .tag-label { font-weight: 700; color: var(--fg); }
+
+        .research-summary {
+            margin-top: 1.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+        }
+
+        .research-summary h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .chain-steps { display: flex; flex-direction: column; gap: 0.6rem; }
+
+        .chain-step {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .chain-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .chain-step code {
+            background: var(--tag-bg);
+            padding: 0.1rem 0.35rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
         /* ANIMATIONS */
         .fade-up {
             opacity: 0;
@@ -430,6 +579,7 @@
             <a href="#skills">Skills</a>
             <a href="#experience">Experience</a>
             <a href="#education">Education</a>
+            <a href="#research">Research</a>
             <a href="mailto:yayekit@gmail.com">Contact</a>
         </div>
     </div>
@@ -589,6 +739,162 @@
                         <li>Introduced config-driven dbt/GE data quality monitoring framework, reducing data incidents by 40%</li>
                         <li>Analysed supplier data via BI toolchain, identifying risky batches and enhancing customer safety</li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="research">
+        <div class="section-header fade-up"><h2>Security Research</h2><span class="line"></span></div>
+        <p class="research-intro fade-up">I built <a href="https://learnercourse.netlify.app/" target="_blank" rel="noopener">DataForest Learning</a> as a deliberately vulnerable learning platform to demonstrate common web security anti-patterns. Below is my audit documenting every weakness — from exposed credentials to missing access controls.</p>
+
+        <div class="finding-grid">
+
+            <div class="finding critical fade-up">
+                <div class="finding-header">
+                    <span class="severity-badge severity-critical">CRITICAL</span>
+                    <h3>Hardcoded Admin Password in Client Bundle</h3>
+                </div>
+                <div class="finding-body">
+                    <p>The admin password (<code>admin123</code>) is embedded as a fallback directly in the shipped JavaScript. Even without querying the database, anyone can read it from the browser's DevTools Sources tab.</p>
+                    <div class="code-block"><pre>const dbAdminPw = async () => {
+  const { data } = await SB.from("admins")
+    .select("password").limit(1).single();
+  return data?.password || <span class="hl">"admin123"</span>;  // hardcoded fallback
+};</pre></div>
+                    <div class="finding-meta">
+                        <span class="tag-label">Impact:</span> Full admin access to any visitor
+                        <br><span class="tag-label">Fix:</span> Server-side auth with hashed passwords (e.g. Supabase Auth, bcrypt)
+                    </div>
+                </div>
+            </div>
+
+            <div class="finding critical fade-up">
+                <div class="finding-header">
+                    <span class="severity-badge severity-critical">CRITICAL</span>
+                    <h3>Exposed Supabase Anon Key — No Row-Level Security</h3>
+                </div>
+                <div class="finding-body">
+                    <p>The Supabase anonymous API key is in the client bundle, and <strong>no RLS policies</strong> are configured. Anyone can query, insert, update, or delete all rows in every table using a single <code>curl</code> command:</p>
+                    <div class="code-block"><pre>curl 'https://&lt;project&gt;.supabase.co/rest/v1/admins?select=*' \
+  -H 'apikey: &lt;anon_key&gt;'
+
+<span class="hl"># Response: [{"id":1,"password":"admin123"}]</span></pre></div>
+                    <div class="finding-meta">
+                        <span class="tag-label">Confirmed:</span> SELECT, UPSERT, DELETE all return 2xx with the anon key
+                        <br><span class="tag-label">Exposed tables:</span> <code>admins</code>, <code>users</code>, <code>projects</code>, <code>cores-images</code> bucket
+                        <br><span class="tag-label">Fix:</span> Enable RLS on every table, scope policies to authenticated roles
+                    </div>
+                </div>
+            </div>
+
+            <div class="finding critical fade-up">
+                <div class="finding-header">
+                    <span class="severity-badge severity-critical">CRITICAL</span>
+                    <h3>Client-Side Authentication — No Server Validation</h3>
+                </div>
+                <div class="finding-body">
+                    <p>The admin login compares the user's input against the password <em>in the browser</em>. There is no session, no token, no server-side check. Bypassing it is trivial — call <code>onAdmin()</code> from the console.</p>
+                    <div class="code-block"><pre>const tryAdmin = () =>
+  pw === adminPw ? <span class="hl">onAdmin()</span> : setPwErr("Incorrect password.");
+// No session token. No server round-trip. Just a JS function call.</pre></div>
+                    <div class="finding-meta">
+                        <span class="tag-label">Impact:</span> Auth bypass in one line of JS
+                        <br><span class="tag-label">Fix:</span> Use Supabase Auth with JWT sessions; validate on every API call
+                    </div>
+                </div>
+            </div>
+
+            <div class="finding high fade-up">
+                <div class="finding-header">
+                    <span class="severity-badge severity-high">HIGH</span>
+                    <h3>Stored XSS via Rich Text Editor</h3>
+                </div>
+                <div class="finding-body">
+                    <p>Slide content from the Quill editor is rendered with <code>dangerouslySetInnerHTML</code>. An admin (or anyone, given the auth bypass) can inject arbitrary HTML/JS that executes for every learner who opens the slide.</p>
+                    <div class="finding-meta">
+                        <span class="tag-label">Impact:</span> Session hijacking, phishing overlays, keylogging
+                        <br><span class="tag-label">Fix:</span> Sanitize HTML with DOMPurify before rendering; enforce a CSP
+                    </div>
+                </div>
+            </div>
+
+            <div class="finding high fade-up">
+                <div class="finding-header">
+                    <span class="severity-badge severity-high">HIGH</span>
+                    <h3>Plaintext Password Storage</h3>
+                </div>
+                <div class="finding-body">
+                    <p>The <code>admins</code> table stores the password as a raw string (<code>"admin123"</code>) — no hashing, no salting. Combined with the lack of RLS, the plaintext password is directly queryable by anyone.</p>
+                    <div class="finding-meta">
+                        <span class="tag-label">Fix:</span> Hash with bcrypt/argon2; never store or transmit plaintext credentials
+                    </div>
+                </div>
+            </div>
+
+            <div class="finding high fade-up">
+                <div class="finding-header">
+                    <span class="severity-badge severity-high">HIGH</span>
+                    <h3>Full Database Write Access for Anonymous Users</h3>
+                </div>
+                <div class="finding-body">
+                    <p>The anon key permits <code>INSERT</code>, <code>UPDATE</code>, and <code>DELETE</code> on all tables. An attacker can wipe all courses, tamper with learner progress, or inject malicious course content — all without authentication.</p>
+                    <div class="code-block"><pre># DELETE returns 204 — no auth required
+curl -X DELETE '.../rest/v1/projects?id=eq.&lt;any_id&gt;' \
+  -H 'apikey: &lt;anon_key&gt;'   <span class="hl"># 204 No Content ✓</span></pre></div>
+                </div>
+            </div>
+
+            <div class="finding medium fade-up">
+                <div class="finding-header">
+                    <span class="severity-badge severity-medium">MEDIUM</span>
+                    <h3>No Content Security Policy</h3>
+                </div>
+                <div class="finding-body">
+                    <p>The app serves no <code>Content-Security-Policy</code> header. Combined with the stored XSS vector, there is nothing preventing injected scripts from exfiltrating data to external domains.</p>
+                </div>
+            </div>
+
+            <div class="finding medium fade-up">
+                <div class="finding-header">
+                    <span class="severity-badge severity-medium">MEDIUM</span>
+                    <h3>No Input Validation or Sanitization</h3>
+                </div>
+                <div class="finding-body">
+                    <p>Learner names, media URLs, and quiz feedback are accepted as-is with no length limits, format checks, or encoding. This widens the attack surface for injection and abuse.</p>
+                </div>
+            </div>
+
+            <div class="finding low fade-up">
+                <div class="finding-header">
+                    <span class="severity-badge severity-low">LOW</span>
+                    <h3>No Rate Limiting or Brute-Force Protection</h3>
+                </div>
+                <div class="finding-body">
+                    <p>The admin login has no lockout, CAPTCHA, or rate limit. Even if the password weren't already exposed, it could be brute-forced trivially.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="research-summary fade-up">
+            <h3>Attack Chain Summary</h3>
+            <div class="chain-steps">
+                <div class="chain-step">
+                    <span class="chain-num">1</span>
+                    <span>Open DevTools &rarr; read anon key + Supabase URL from bundle</span>
+                </div>
+                <div class="chain-step">
+                    <span class="chain-num">2</span>
+                    <span>Query <code>admins</code> table directly &rarr; get plaintext password</span>
+                </div>
+                <div class="chain-step">
+                    <span class="chain-num">3</span>
+                    <span>Log in as admin, or skip login entirely by calling <code>onAdmin()</code></span>
+                </div>
+                <div class="chain-step">
+                    <span class="chain-num">4</span>
+                    <span>Full control: edit/delete courses, exfil user data, inject XSS payloads</span>
                 </div>
             </div>
         </div>
