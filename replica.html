@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataForest Learning — Replica (Security Research)</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; overflow: hidden; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #F5F0E8;
+            color: #2C2520;
+            font-size: 16px;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #C4B9A8; border-radius: 3px; }
+        button { font-family: inherit; cursor: pointer; }
+        textarea, input, select { font-family: inherit; outline: none; }
+
+        /* BANNER */
+        .research-banner {
+            background: #2C2520;
+            color: #F5F0E8;
+            text-align: center;
+            padding: 8px 16px;
+            font-size: 13px;
+            letter-spacing: 0.3px;
+        }
+        .research-banner a { color: #79B6E3; text-decoration: underline; }
+
+        /* LAYOUT */
+        .app { display: flex; flex-direction: column; height: calc(100% - 35px); }
+        .header {
+            padding: 22px 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 0.5px solid #C4B9A8;
+        }
+        .header-left .label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #8C7E6E;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .header-left .brand {
+            font-family: Georgia, serif;
+            font-size: 42px;
+            font-weight: 400;
+            color: #2C2520;
+        }
+        .main { flex: 1; overflow-y: auto; padding: 32px 36px; }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 20px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 0.5px solid #C4B9A8;
+            background: transparent;
+            color: #5C4F45;
+            cursor: pointer;
+            transition: border-color 0.15s;
+        }
+        .btn:hover { border-color: #8C7E6E; }
+        .btn-primary {
+            background: #9E4F2E;
+            border-color: #9E4F2E;
+            color: #FAF6EF;
+            font-weight: 600;
+        }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-sm { padding: 5px 12px; font-size: 13px; }
+        .btn-danger { border-color: #A32D2D; background: #FCEBEB; color: #A32D2D; }
+
+        /* CARD */
+        .card {
+            background: #FAF6EF;
+            border: 0.5px solid #C4B9A8;
+            border-radius: 12px;
+            padding: 26px 28px;
+        }
+        .card h3 {
+            font-family: Georgia, serif;
+            font-size: 22px;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+        .card .sub { color: #5C4F45; font-size: 14px; margin-bottom: 16px; }
+
+        /* BADGE */
+        .tier-badge {
+            display: inline-flex;
+            padding: 3px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        .tier-foundation { background: #F7EDE8; color: #9E4F2E; border: 0.5px solid #C4724F; }
+        .tier-core { background: #EBF0E6; color: #5C6B50; border: 0.5px solid #5C6B50; }
+
+        /* META ROW */
+        .meta-row {
+            display: flex;
+            gap: 28px;
+            padding-top: 14px;
+            border-top: 0.5px solid #C4B9A8;
+            margin-top: 14px;
+        }
+        .meta-item .meta-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #8C7E6E;
+            font-weight: 600;
+        }
+        .meta-item .meta-val {
+            font-size: 15px;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        /* ADMIN LOGIN */
+        .admin-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .admin-bar input {
+            padding: 9px 12px;
+            border: 0.5px solid #C4B9A8;
+            border-radius: 7px;
+            font-size: 15px;
+            width: 220px;
+            background: #FAF6EF;
+        }
+        .admin-bar input:focus { border-color: #8C7E6E; }
+        .pw-err { color: #A32D2D; font-size: 12px; margin-top: 4px; }
+
+        /* PROJECT GRID */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 18px;
+            margin-top: 24px;
+        }
+        .start-link {
+            display: block;
+            text-align: right;
+            margin-top: 12px;
+            color: #9E4F2E;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        .start-link:hover { text-decoration: underline; }
+
+        /* LEARNER LOGIN */
+        .login-box {
+            max-width: 400px;
+            margin: 80px auto;
+            text-align: center;
+        }
+        .login-box h2 {
+            font-family: Georgia, serif;
+            font-size: 26px;
+            font-weight: 400;
+            margin-bottom: 8px;
+        }
+        .login-box p { color: #5C4F45; margin-bottom: 18px; }
+        .login-box input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 0.5px solid #C4B9A8;
+            border-radius: 7px;
+            font-size: 15px;
+            margin-bottom: 12px;
+            background: #FAF6EF;
+        }
+
+        /* COURSE DASHBOARD */
+        .course-hero { margin-bottom: 28px; }
+        .course-hero h1 {
+            font-family: Georgia, serif;
+            font-size: 32px;
+            font-weight: 400;
+        }
+        .course-hero .desc {
+            color: #5C4F45;
+            margin: 8px 0 14px;
+            font-size: 15px;
+        }
+        .progress-bar-wrap {
+            background: #EDE6D6;
+            border-radius: 3px;
+            height: 6px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: #9E4F2E;
+            border-radius: 3px;
+            transition: width 0.4s;
+        }
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 14px;
+            margin-top: 20px;
+        }
+        .ch-card {
+            background: #FAF6EF;
+            border: 0.5px solid #C4B9A8;
+            border-radius: 10px;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: border-color 0.15s;
+        }
+        .ch-card:hover { border-color: #8C7E6E; }
+        .ch-card .ch-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .ch-card .ch-title {
+            font-family: Georgia, serif;
+            font-size: 17px;
+        }
+        .ch-card .ch-info {
+            color: #8C7E6E;
+            font-size: 13px;
+        }
+
+        /* LESSON VIEW */
+        .lesson {
+            display: flex;
+            height: 100%;
+        }
+        .lesson-sidebar {
+            width: 265px;
+            min-width: 265px;
+            border-right: 0.5px solid #C4B9A8;
+            overflow-y: auto;
+            padding: 14px 0;
+        }
+        .lesson-sidebar .back-btn {
+            display: block;
+            padding: 8px 16px;
+            color: #5C4F45;
+            font-size: 13px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+        .lesson-sidebar .back-btn:hover { color: #2C2520; }
+        .sidebar-ch {
+            padding: 10px 16px 4px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #8C7E6E;
+            font-weight: 600;
+        }
+        .sidebar-slide {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            font-size: 14px;
+            color: #5C4F45;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+        }
+        .sidebar-slide:hover { background: #EDE6D6; }
+        .sidebar-slide.active { background: #EDE6D6; font-weight: 600; color: #2C2520; }
+        .sidebar-slide .check { color: #5C6B50; }
+
+        .lesson-main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 28px 36px;
+        }
+        .lesson-main h2 {
+            font-family: Georgia, serif;
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+        .slide-body {
+            font-family: Georgia, serif;
+            font-size: 17px;
+            line-height: 1.8;
+            color: #5C4F45;
+        }
+        .slide-body p { margin-bottom: 14px; }
+
+        /* QUIZ */
+        .quiz-section {
+            margin-top: 28px;
+            padding: 22px 24px;
+            background: #FAF6EF;
+            border: 0.5px solid #C4B9A8;
+            border-radius: 10px;
+        }
+        .quiz-section .q-text {
+            font-family: Georgia, serif;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 14px;
+        }
+        .q-option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 14px;
+            border: 0.5px solid #C4B9A8;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            line-height: 1.5;
+            transition: all 0.15s;
+        }
+        .q-option:hover { background: #EDE6D6; border-color: #8C7E6E; }
+        .q-option.selected { border-color: #9E4F2E; background: #F7EDE8; }
+        .q-option.correct { border-color: #5C6B50; background: #EBF0E6; border-width: 1.5px; }
+        .q-option.incorrect { border-color: #A32D2D; background: #FCEBEB; border-width: 1.5px; }
+        .q-radio {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1.5px solid #C4B9A8;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        .q-option.selected .q-radio { border-color: #9E4F2E; background: #9E4F2E; }
+        .q-feedback {
+            margin-top: 10px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .q-feedback.correct { background: #EBF0E6; color: #5C6B50; }
+        .q-feedback.incorrect { background: #FCEBEB; color: #A32D2D; }
+
+        /* NAV BAR */
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            margin-top: 28px;
+            border-top: 0.5px solid #C4B9A8;
+        }
+        .slide-dots {
+            display: flex;
+            gap: 6px;
+        }
+        .slide-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #EDE6D6;
+            border: 0.5px solid #C4B9A8;
+        }
+        .slide-dot.active { background: #9E4F2E; border-color: #9E4F2E; }
+        .slide-dot.done { background: #5C6B50; border-color: #5C6B50; }
+
+        /* ADMIN SCREEN */
+        .admin-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 0.5px solid #C4B9A8;
+            margin-bottom: 20px;
+        }
+        .admin-tab {
+            padding: 10px 22px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #8C7E6E;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-family: inherit;
+        }
+        .admin-tab.active { color: #2C2520; border-bottom-color: #9E4F2E; }
+        .admin-layout {
+            display: flex;
+            gap: 0;
+            height: calc(100% - 50px);
+        }
+        .admin-left {
+            width: 290px;
+            min-width: 290px;
+            border-right: 0.5px solid #C4B9A8;
+            overflow-y: auto;
+            padding: 14px 16px;
+        }
+        .admin-right {
+            flex: 1;
+            overflow-y: auto;
+            padding: 22px 32px;
+        }
+        .admin-item {
+            padding: 10px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-item:hover { background: #EDE6D6; }
+        .admin-item.active { background: #EDE6D6; font-weight: 600; }
+
+        .results-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .stat-box {
+            background: #FAF6EF;
+            border: 0.5px solid #C4B9A8;
+            border-radius: 10px;
+            padding: 18px 20px;
+            text-align: center;
+        }
+        .stat-box .stat-num {
+            font-family: Georgia, serif;
+            font-size: 28px;
+            color: #2C2520;
+        }
+        .stat-box .stat-label {
+            font-size: 12px;
+            color: #8C7E6E;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .learner-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .learner-table th {
+            text-align: left;
+            padding: 8px 12px;
+            border-bottom: 0.5px solid #C4B9A8;
+            color: #8C7E6E;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .learner-table td {
+            padding: 10px 12px;
+            border-bottom: 0.5px solid #EDE6D6;
+        }
+
+        @media (max-width: 700px) {
+            .header { padding: 16px 20px; }
+            .header-left .brand { font-size: 28px; }
+            .main { padding: 20px; }
+            .project-grid { grid-template-columns: 1fr; }
+            .lesson { flex-direction: column; }
+            .lesson-sidebar { width: 100%; min-width: 100%; border-right: none; border-bottom: 0.5px solid #C4B9A8; max-height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="research-banner">
+    This is a read-only replica built from scraped data to demonstrate security vulnerabilities.
+    <a href="https://yayekit.github.io/#research">Full audit &rarr;</a>
+</div>
+
+<div class="app" id="app"></div>
+
+<script>
+const COURSE = {"id":"on7xtn0","level":"All levels","title":"Working With Data Platforms","modules":"7","chapters":[{"id":"wqo2zgz","tier":"Foundation","title":"Introduction","slides":[{"id":"susznh5","body":"<p>DataForest builds enterprise data platforms for companies navigating some of the most complex data challenges in their industries \u2014 post-acquisition integration, massive-scale billing reconciliation, healthcare revenue cycle analytics.</p><p>Every engagement is different. The architecture underneath them is not.</p><p>This course gives you the conceptual foundation to understand what we build and why \u2014 before you sit in your first client call, review your first pipeline, or write your first ticket.</p><p>This course is designed for everyone joining DataForest, regardless of role or technical background.</p><p>You will not be asked to write code or configure a pipeline.</p><p>You will be asked to think about data problems the way DataForest thinks about them: starting with the business question, not the technical solution.</p>","image":null,"heading":"Welcome to DataForest","quizzes":[]},{"id":"j4jesm5","body":"<p>Seven modules, 84 minutes, one narrative thread. Each module builds on the last. All of them connect to real DataForest projects.</p><p>The course is built around three active DataForest client engagements: RMC-Norkem, a chemical manufacturer integrating three acquired companies; NexGen Cloud, a GPU infrastructure platform; and Sagis Diagnostics, a pathology and toxicology lab navigating HIPAA-compliant analytics.</p><p><strong>How assessment works</strong></p><p>Each of the first six modules ends with a short scenario-based question. The seventh module is a single branching scenario that runs for approximately 15 minutes.</p>","image":null,"heading":"Course & assessment structure","quizzes":[]}],"duration":"3 minutes"},{"id":"p4iyplf","tier":"Foundation","title":"Module 1: Why We Build Data Platforms","slides":[{"id":"ovixb2s","body":"<p>Before we get into architectures, pipelines, or any technical detail, we need to answer a more basic question: why does any of this exist?</p><p>Every data platform DataForest builds was built because someone, somewhere, could not answer a question they needed to answer. And the cost of not knowing that answer had become too high to ignore.</p><p>That\u2019s the premise this entire course builds on: a data platform gets built when the cost of not knowing something exceeds the cost of building the infrastructure to know it.</p>","image":null,"heading":"Intro","quizzes":[]},{"id":"ybes0mv","body":"<p>A private equity firm acquires two chemical companies \u2014 RMC and Norkem. The fund\u2019s finance team needs to report combined revenue to its investors.</p><p>RMC runs on one ERP system. Norkem runs on another. Revenue figures are stored in different currencies, calculated on different methodologies, and labelled with different field names.</p><p>When the finance team asks: what is our combined revenue this quarter? \u2014 no one can answer it. Not because the data doesn\u2019t exist, but because it exists in a form that cannot be directly compared.</p><p>This is the moment a data platform becomes necessary \u2014 not as a technical project, but as a business requirement.</p>","image":null,"heading":"Story 1: The PE Acquisition \u2014 RMC-Norkem","quizzes":[]},{"id":"0dt9fvi","body":"<p>NexGen Cloud operates a GPU infrastructure platform. During a review of their billing data, 16.8 million billing records could not be matched to any price entry in the system.</p><p>No one knew whether these records represented real revenue risk. Because there was no analytical layer sitting above the raw billing data.</p><p>The cost of not knowing eventually exceeded the cost of building a system that could answer the question.</p>","image":null,"heading":"Story 2: The 16.8 Million Records \u2014 NexGen Cloud","quizzes":[]},{"id":"21o8hnh","body":"<p>Sagis Diagnostics runs a network of clinical labs. Claims data existed across multiple systems. There was no single place where the right person could see which claims have been denied and which are still recoverable.</p><p>The result was a slow, quiet erosion of recoverable revenue. The cost of not knowing was measured in real dollars quietly walking out the door every month.</p>","image":null,"heading":"Story 3: The Denial Revenue Erosion \u2014 Sagis Diagnostics","quizzes":[]},{"id":"8fr7y2q","body":"<p>Three industries. Three different problems. The same underlying pattern: information existed in a form that couldn\u2019t be used to make a decision.</p><p>That gap \u2014 between data that exists and insight that\u2019s usable \u2014 is what DataForest builds infrastructure to close.</p><p>Before you move on, here\u2019s a quick scenario.</p>","image":null,"heading":"The core idea","quizzes":[{"id":"fyc2z4n","type":"single","correct":[2],"options":[{"id":"3gwxv2n","text":"Check the Gold table filters \u2014 there may be a duplication or misconfigured aggregation.","feedback":"Both A and B are legitimate investigation steps, but with 10 minutes and a board call imminent, they\u2019re too slow."},{"id":"140lf2t","text":"Go back to Bronze-level source data and compare the raw figures from each ERP directly.","feedback":"Both A and B are legitimate investigation steps, but with 10 minutes and a board call imminent, they\u2019re too slow."},{"id":"p46rxtq","text":"Ask the domain expert which revenue recognition methodology was approved for the combined entity.","feedback":"The $8.4M discrepancy was a methodology difference. The fastest path to the root cause ran through the person who knew what the number was supposed to mean."}],"question":"Combined revenue is showing $8.4 million higher than expected. You have 10 minutes before a board call. What do you do?"}]},{"id":"o3qkzxu","body":"<p>A data platform encodes business decisions \u2014 about what to count, how to count it, and what the result should represent.</p><p>When numbers are wrong, the first question often isn\u2019t \u201cwhat broke in the pipeline?\u201d It\u2019s \u201cwhat business decision is this pipeline trying to reflect?\u201d</p><p>That question gets answered by a domain expert, not a SQL query.</p>","image":null,"heading":"The takeaway","quizzes":[]}],"duration":"10 minutes"}],"duration":"80 minutes","subtitle":"DataForest Foundational Course","description":"Prepared by DataForest Learning & Development"};
+
+const USERS = [
+    {name:"mmm",completed:{"yt47d8s":true},last_seen:"2026-04-07T23:41:41.217Z"},
+    {name:"ggg",completed:{"susznh5":true},last_seen:"2026-04-07T23:59:33.846Z"},
+    {name:"lll",completed:{"j4jesm5":true,"ovixb2s":true,"susznh5":true,"ybes0mv":true},last_seen:"2026-04-08T01:02:33.597Z"},
+    {name:"\u041c\u0438\u0441\u0442\u0435\u0440 \u0418\u043d\u043a\u043e\u0433\u043d\u0438\u0442\u043e",completed:{"susznh5":true},last_seen:"2026-04-08T01:12:53.015Z"},
+    {name:"_",completed:{},last_seen:"2026-04-08T15:52:06.286Z"}
+];
+
+// VULNERABLE: admin password stored client-side (replica of the real vulnerability)
+const ADMIN_PW = "admin123";
+
+const allSlides = COURSE.chapters.flatMap(c => c.slides);
+
+let screen = "home";
+let showPw = false;
+let pwInput = "";
+let pwErr = "";
+let userName = "";
+let activeCh = 0;
+let activeSl = 0;
+let completed = {};
+let quizAnswers = {};
+let adminTab = "projects";
+
+function render() {
+    const app = document.getElementById("app");
+    if (screen === "home") app.innerHTML = renderHome();
+    else if (screen === "login") app.innerHTML = renderLogin();
+    else if (screen === "course") app.innerHTML = renderCourse();
+    else if (screen === "admin") app.innerHTML = renderAdmin();
+    bindEvents();
+}
+
+function renderHome() {
+    const totalSlides = allSlides.length;
+    const totalCh = COURSE.chapters.length;
+    return `
+    <div class="header">
+        <div class="header-left">
+            <div class="label">Learning Platform</div>
+            <div class="brand">DataForest</div>
+        </div>
+        <div>
+            ${showPw ? `
+                <div class="admin-bar">
+                    <input type="password" id="pw-input" placeholder="Admin password" value="${pwInput}">
+                    <button class="btn btn-primary btn-sm" onclick="tryAdmin()">Enter</button>
+                    <button class="btn btn-sm" onclick="showPw=false;pwInput='';pwErr='';render()">Cancel</button>
+                </div>
+                ${pwErr ? `<div class="pw-err">${pwErr}</div>` : ''}
+            ` : `
+                <button class="btn" onclick="showPw=true;render()">Admin login</button>
+            `}
+        </div>
+    </div>
+    <div class="main">
+        <div class="project-grid">
+            <div class="card">
+                <span class="tier-badge tier-foundation">All Levels</span>
+                <h3 style="margin-top:10px">${COURSE.title}</h3>
+                <div class="sub">${COURSE.description}</div>
+                <div class="meta-row">
+                    <div class="meta-item">
+                        <div class="meta-label">Duration</div>
+                        <div class="meta-val">${COURSE.duration}</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Chapters</div>
+                        <div class="meta-val">${totalCh} ch</div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-label">Slides</div>
+                        <div class="meta-val">${totalSlides} slides</div>
+                    </div>
+                </div>
+                <a href="#" class="start-link" onclick="screen='login';render();return false">Start course &rarr;</a>
+            </div>
+        </div>
+    </div>`;
+}
+
+function renderLogin() {
+    return `
+    <div class="header">
+        <div class="header-left">
+            <div class="label">Learning Platform</div>
+            <div class="brand">DataForest</div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="login-box">
+            <h2>${COURSE.title}</h2>
+            <p>Enter your name to begin</p>
+            <input type="text" id="name-input" placeholder="Your name" autofocus>
+            <button class="btn btn-primary" style="width:100%" onclick="startCourse()">Start</button>
+            <button class="btn" style="width:100%;margin-top:8px" onclick="screen='home';render()">Back</button>
+        </div>
+    </div>`;
+}
+
+function renderCourse() {
+    const ch = COURSE.chapters[activeCh];
+    const sl = ch.slides[activeSl];
+    const completedCount = Object.keys(completed).length;
+    const pct = Math.round((completedCount / allSlides.length) * 100);
+
+    let quizHtml = '';
+    if (sl.quizzes && sl.quizzes.length > 0) {
+        sl.quizzes.forEach(q => {
+            const ans = quizAnswers[q.id];
+            quizHtml += `<div class="quiz-section">
+                <div class="q-text">${q.question}</div>
+                ${q.options.map((opt, i) => {
+                    let cls = 'q-option';
+                    if (ans !== undefined) {
+                        if (q.correct.includes(i)) cls += ' correct';
+                        else if (ans === i) cls += ' incorrect';
+                    } else {
+                        cls += '';
+                    }
+                    return `<div class="${cls}" onclick="answerQuiz('${q.id}',${i})">
+                        <div class="q-radio"></div>
+                        <div>${opt.text}</div>
+                    </div>`;
+                }).join('')}
+                ${ans !== undefined ? `<div class="q-feedback ${q.correct.includes(ans)?'correct':'incorrect'}">${q.options[ans].feedback}</div>` : ''}
+            </div>`;
+        });
+    }
+
+    return `
+    <div class="lesson">
+        <div class="lesson-sidebar">
+            <button class="back-btn" onclick="screen='home';render()">&larr; Back to courses</button>
+            ${COURSE.chapters.map((c, ci) => `
+                <div class="sidebar-ch">${c.title}</div>
+                ${c.slides.map((s, si) => `
+                    <button class="sidebar-slide ${ci===activeCh && si===activeSl ? 'active' : ''}" onclick="activeCh=${ci};activeSl=${si};render()">
+                        ${completed[s.id] ? '<span class="check">\u2713</span>' : '<span style="color:#C4B9A8">\u25CB</span>'}
+                        ${s.heading}
+                    </button>
+                `).join('')}
+            `).join('')}
+        </div>
+        <div class="lesson-main">
+            <h2>${sl.heading}</h2>
+            <div class="slide-body">${sl.body}</div>
+            ${quizHtml}
+            <div class="lesson-nav">
+                ${activeSl > 0 || activeCh > 0 ? `<button class="btn btn-sm" onclick="prevSlide()">Previous</button>` : '<div></div>'}
+                <div class="slide-dots">
+                    ${ch.slides.map((s, i) => `<div class="slide-dot ${i===activeSl?'active':''} ${completed[s.id]?'done':''}"></div>`).join('')}
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="nextSlide()">${isLastSlide() ? 'Finish' : 'Next'}</button>
+            </div>
+        </div>
+    </div>`;
+}
+
+function renderAdmin() {
+    const totalSlides = allSlides.length;
+    const completedLearners = USERS.filter(u => {
+        const c = Object.keys(u.completed || {}).length;
+        return c >= totalSlides;
+    }).length;
+    const avgProgress = USERS.length > 0
+        ? Math.round(USERS.reduce((s,u) => s + (Object.keys(u.completed||{}).length / totalSlides * 100), 0) / USERS.length)
+        : 0;
+
+    return `
+    <div class="header">
+        <div class="header-left">
+            <div class="label">Learning Platform</div>
+            <div class="brand">DataForest</div>
+        </div>
+        <button class="btn btn-sm" onclick="screen='home';showPw=false;render()">Logout</button>
+    </div>
+    <div class="main" style="padding-top:0">
+        <div class="admin-tabs">
+            <button class="admin-tab ${adminTab==='projects'?'active':''}" onclick="adminTab='projects';render()">Projects</button>
+            <button class="admin-tab ${adminTab==='results'?'active':''}" onclick="adminTab='results';render()">Results</button>
+        </div>
+        ${adminTab === 'projects' ? `
+            <div class="admin-layout">
+                <div class="admin-left">
+                    <div class="admin-item active">
+                        <span>${COURSE.title}</span>
+                        <span class="tier-badge tier-foundation" style="font-size:9px">Foundation</span>
+                    </div>
+                </div>
+                <div class="admin-right">
+                    <div class="card">
+                        <h3>${COURSE.title}</h3>
+                        <div class="sub">${COURSE.subtitle} &mdash; ${COURSE.duration}</div>
+                        <p style="color:#5C4F45;font-size:14px">${COURSE.chapters.length} chapters, ${totalSlides} slides</p>
+                    </div>
+                </div>
+            </div>
+        ` : `
+            <div class="results-stats">
+                <div class="stat-box">
+                    <div class="stat-num">${USERS.length}</div>
+                    <div class="stat-label">Learners</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">${completedLearners}</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-num">${avgProgress}%</div>
+                    <div class="stat-label">Avg Progress</div>
+                </div>
+            </div>
+            <table class="learner-table">
+                <thead>
+                    <tr><th>Name</th><th>Progress</th><th>Last seen</th></tr>
+                </thead>
+                <tbody>
+                    ${USERS.map(u => {
+                        const p = Math.round(Object.keys(u.completed||{}).length / totalSlides * 100);
+                        const d = new Date(u.last_seen);
+                        return `<tr>
+                            <td>${u.name}</td>
+                            <td>
+                                <div style="display:flex;align-items:center;gap:8px">
+                                    <div style="width:80px;height:5px;background:#EDE6D6;border-radius:3px;overflow:hidden">
+                                        <div style="width:${p}%;height:100%;background:${p>=100?'#5C6B50':'#9E4F2E'};border-radius:3px"></div>
+                                    </div>
+                                    <span style="font-size:12px;color:#8C7E6E">${p}%</span>
+                                </div>
+                            </td>
+                            <td style="color:#8C7E6E;font-size:13px">${d.toLocaleDateString()} ${d.toLocaleTimeString()}</td>
+                        </tr>`;
+                    }).join('')}
+                </tbody>
+            </table>
+        `}
+    </div>`;
+}
+
+function tryAdmin() {
+    const input = document.getElementById("pw-input");
+    pwInput = input ? input.value : "";
+    // VULNERABLE: client-side password comparison (replica of the real vulnerability)
+    if (pwInput === ADMIN_PW) {
+        screen = "admin";
+        showPw = false;
+        pwInput = "";
+        pwErr = "";
+    } else {
+        pwErr = "Incorrect password.";
+    }
+    render();
+}
+
+function startCourse() {
+    const input = document.getElementById("name-input");
+    userName = input ? input.value.trim() : "";
+    if (!userName) return;
+    screen = "course";
+    activeCh = 0;
+    activeSl = 0;
+    render();
+}
+
+function nextSlide() {
+    const ch = COURSE.chapters[activeCh];
+    const sl = ch.slides[activeSl];
+    completed[sl.id] = true;
+    if (activeSl < ch.slides.length - 1) {
+        activeSl++;
+    } else if (activeCh < COURSE.chapters.length - 1) {
+        activeCh++;
+        activeSl = 0;
+    } else {
+        screen = "home";
+    }
+    render();
+}
+
+function prevSlide() {
+    if (activeSl > 0) {
+        activeSl--;
+    } else if (activeCh > 0) {
+        activeCh--;
+        activeSl = COURSE.chapters[activeCh].slides.length - 1;
+    }
+    render();
+}
+
+function isLastSlide() {
+    return activeCh === COURSE.chapters.length - 1 && activeSl === COURSE.chapters[activeCh].slides.length - 1;
+}
+
+function answerQuiz(qid, idx) {
+    if (quizAnswers[qid] !== undefined) return;
+    quizAnswers[qid] = idx;
+    render();
+}
+
+function bindEvents() {
+    const pwInput = document.getElementById("pw-input");
+    if (pwInput) {
+        pwInput.focus();
+        pwInput.addEventListener("keydown", e => { if (e.key === "Enter") tryAdmin(); });
+    }
+    const nameInput = document.getElementById("name-input");
+    if (nameInput) {
+        nameInput.focus();
+        nameInput.addEventListener("keydown", e => { if (e.key === "Enter") startCourse(); });
+    }
+}
+
+render();
+</script>
+</body>
+</html>
