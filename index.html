@@ -8,36 +8,36 @@
     <link rel="icon" type="image/svg+xml" href="kit4.svg">
     <style>
         :root {
-            --bg: #fdfdfd;
-            --fg: #1a1a1a;
-            --muted: #64748b;
-            --accent: #2563eb;
-            --accent-glow: rgba(37, 99, 235, 0.15);
-            --border: #e2e8f0;
+            --bg: #fafbfd;
+            --fg: #1a1a2e;
+            --muted: #5a6a80;
+            --accent: #4F70B6;
+            --accent-glow: rgba(79, 112, 182, 0.15);
+            --border: #dce3ed;
             --card-bg: #fff;
-            --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-            --card-hover: 0 10px 30px rgba(0,0,0,0.08);
-            --tag-bg: #f1f5f9;
-            --tag-fg: #475569;
-            --gradient-start: #2563eb;
-            --gradient-end: #7c3aed;
+            --card-shadow: 0 1px 3px rgba(38,34,98,0.06), 0 1px 2px rgba(38,34,98,0.04);
+            --card-hover: 0 10px 30px rgba(38,34,98,0.1);
+            --tag-bg: #edf1f7;
+            --tag-fg: #3C53A4;
+            --gradient-start: #79B6E3;
+            --gradient-end: #3C53A4;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --bg: #0f172a;
-                --fg: #e2e8f0;
-                --muted: #94a3b8;
-                --accent: #60a5fa;
-                --accent-glow: rgba(96, 165, 250, 0.1);
-                --border: #1e293b;
-                --card-bg: #1e293b;
-                --card-shadow: 0 1px 3px rgba(0,0,0,0.3);
-                --card-hover: 0 10px 30px rgba(0,0,0,0.4);
-                --tag-bg: #334155;
-                --tag-fg: #cbd5e1;
-                --gradient-start: #60a5fa;
-                --gradient-end: #a78bfa;
+                --bg: #0d1021;
+                --fg: #dce3ed;
+                --muted: #8a9ab5;
+                --accent: #79B6E3;
+                --accent-glow: rgba(121, 182, 227, 0.1);
+                --border: #1a2038;
+                --card-bg: #151a30;
+                --card-shadow: 0 1px 3px rgba(0,0,0,0.4);
+                --card-hover: 0 10px 30px rgba(0,0,0,0.5);
+                --tag-bg: #1e2744;
+                --tag-fg: #79B6E3;
+                --gradient-start: #79B6E3;
+                --gradient-end: #3C53A4;
             }
         }
 
@@ -79,12 +79,9 @@
         }
 
         nav .logo {
-            font-weight: 700;
-            font-size: 1.1rem;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            display: block;
+            height: 32px;
+            width: auto;
         }
 
         nav .nav-links { display: flex; gap: 1.5rem; }
@@ -452,8 +449,8 @@
             color: #fff;
         }
 
-        .tl-step.tl-vuln::before { background: #dc2626; }
-        .tl-step.tl-fix::before { background: #16a34a; }
+        .tl-step.tl-vuln::before { background: #c44040; }
+        .tl-step.tl-fix::before { background: #3C53A4; }
 
         .tl-card {
             background: var(--card-bg);
@@ -464,11 +461,11 @@
         }
 
         .tl-fix .tl-card {
-            border-left: 3px solid #16a34a;
+            border-left: 3px solid #3C53A4;
         }
 
         .tl-vuln .tl-card {
-            border-left: 3px solid #dc2626;
+            border-left: 3px solid #c44040;
         }
 
         .tl-card h3 {
@@ -497,20 +494,20 @@
             white-space: nowrap;
         }
 
-        .severity-critical { background: #fef2f2; color: #dc2626; }
-        .severity-high { background: #fff7ed; color: #ea580c; }
-        .severity-medium { background: #fefce8; color: #ca8a04; }
-        .severity-low { background: #f0fdf4; color: #16a34a; }
-        .severity-fix { background: #f0fdf4; color: #16a34a; }
-        .severity-poc { background: #eff6ff; color: #2563eb; }
+        .severity-critical { background: #fdf2f2; color: #c44040; }
+        .severity-high { background: #fef5ee; color: #d4722a; }
+        .severity-medium { background: #fdfbe8; color: #a88420; }
+        .severity-low { background: #eef4fb; color: #3C53A4; }
+        .severity-fix { background: #eef4fb; color: #3C53A4; }
+        .severity-poc { background: #edf5fb; color: #4F70B6; }
 
         @media (prefers-color-scheme: dark) {
-            .severity-critical { background: rgba(220,38,38,0.15); color: #f87171; }
-            .severity-high { background: rgba(234,88,12,0.15); color: #fb923c; }
-            .severity-medium { background: rgba(202,138,4,0.15); color: #facc15; }
-            .severity-low { background: rgba(22,163,74,0.15); color: #4ade80; }
-            .severity-fix { background: rgba(22,163,74,0.15); color: #4ade80; }
-            .severity-poc { background: rgba(37,99,235,0.15); color: #60a5fa; }
+            .severity-critical { background: rgba(196,64,64,0.15); color: #e87171; }
+            .severity-high { background: rgba(212,114,42,0.15); color: #f0a060; }
+            .severity-medium { background: rgba(168,132,32,0.15); color: #e8cc40; }
+            .severity-low { background: rgba(60,83,164,0.15); color: #79B6E3; }
+            .severity-fix { background: rgba(60,83,164,0.15); color: #79B6E3; }
+            .severity-poc { background: rgba(79,112,182,0.15); color: #79B6E3; }
         }
 
         .tl-card code {
@@ -522,20 +519,20 @@
         }
 
         .code-block {
-            background: #0a0e17;
+            background: #0b0e1a;
             border-radius: 8px;
             padding: 0.85rem 1rem;
             margin-bottom: 0.6rem;
             overflow-x: auto;
             position: relative;
-            border: 1px solid #1a1f2e;
+            border: 1px solid #1a2038;
         }
 
         .code-block pre {
             font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
             font-size: 0.78rem;
             line-height: 1.55;
-            color: #c8d1dc;
+            color: #b8c5d6;
             margin: 0;
             white-space: pre;
         }
@@ -634,7 +631,7 @@
 
 <nav id="nav">
     <div class="nav-inner">
-        <span class="logo">KY</span>
+        <a href="#"><img class="logo" src="kit4.svg" alt="Keith Yemelianovskyi"></a>
         <div class="nav-links">
             <a href="#skills">Skills</a>
             <a href="#experience">Experience</a>
