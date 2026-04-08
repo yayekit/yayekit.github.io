@@ -1,0 +1,264 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#64748b"/>
+    </marker>
+    <marker id="arrow-red" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#dc2626"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#16a34a"/>
+    </marker>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="#f8fafc" rx="8"/>
+
+  <!-- Title -->
+  <text x="600" y="38" text-anchor="middle" font-size="18" font-weight="800" fill="#0f172a">DataForest Learning — Architecture Diagram</text>
+  <text x="600" y="56" text-anchor="middle" font-size="11" fill="#94a3b8">learnercourse.netlify.app — React SPA + Supabase Backend</text>
+
+  <!-- ═══════════════ HOSTING LAYER ═══════════════ -->
+  <rect x="30" y="75" width="1140" height="90" rx="10" fill="#fff" stroke="#e2e8f0" filter="url(#shadow)"/>
+  <text x="55" y="97" font-size="10" font-weight="700" fill="#94a3b8" letter-spacing="1.5">HOSTING</text>
+  <rect x="55" y="108" width="160" height="42" rx="6" fill="#f0fdf4" stroke="#bbf7d0"/>
+  <text x="135" y="127" text-anchor="middle" font-size="11" font-weight="700" fill="#166534">Netlify CDN</text>
+  <text x="135" y="141" text-anchor="middle" font-size="9" fill="#4ade80">Static file hosting</text>
+
+  <rect x="240" y="108" width="400" height="42" rx="6" fill="#eff6ff" stroke="#bfdbfe"/>
+  <text x="440" y="127" text-anchor="middle" font-size="11" font-weight="700" fill="#1e40af">Single HTML Bundle</text>
+  <text x="440" y="141" text-anchor="middle" font-size="9" fill="#60a5fa">React 18 + Quill.js + Supabase SDK — all inline, no build step</text>
+
+  <rect x="665" y="108" width="130" height="42" rx="6" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="730" y="127" text-anchor="middle" font-size="11" font-weight="700" fill="#991b1b">No CSP Header</text>
+  <text x="730" y="141" text-anchor="middle" font-size="9" fill="#f87171">_headers file missing</text>
+
+  <rect x="820" y="108" width="130" height="42" rx="6" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="885" y="127" text-anchor="middle" font-size="11" font-weight="700" fill="#991b1b">No Rate Limit</text>
+  <text x="885" y="141" text-anchor="middle" font-size="9" fill="#f87171">Unlimited requests</text>
+
+  <rect x="975" y="108" width="170" height="42" rx="6" fill="#fefce8" stroke="#fde68a"/>
+  <text x="1060" y="127" text-anchor="middle" font-size="11" font-weight="700" fill="#854d0e">Anon Key in Bundle</text>
+  <text x="1060" y="141" text-anchor="middle" font-size="9" fill="#ca8a04">Visible in DevTools Sources</text>
+
+  <!-- ═══════════════ CLIENT APP LAYER ═══════════════ -->
+  <rect x="30" y="185" width="1140" height="260" rx="10" fill="#fff" stroke="#e2e8f0" filter="url(#shadow)"/>
+  <text x="55" y="207" font-size="10" font-weight="700" fill="#94a3b8" letter-spacing="1.5">CLIENT — REACT SPA (screen state machine)</text>
+
+  <!-- Screen: Home -->
+  <rect x="55" y="218" width="200" height="100" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="155" y="238" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">HomeScreen</text>
+  <text x="155" y="254" text-anchor="middle" font-size="9" fill="#64748b">screen = "home"</text>
+  <line x1="75" y1="262" x2="235" y2="262" stroke="#e2e8f0"/>
+  <text x="70" y="278" font-size="9" fill="#475569">• List projects (cards)</text>
+  <text x="70" y="292" font-size="9" fill="#475569">• Admin login modal</text>
+  <text x="70" y="306" font-size="9" fill="#dc2626">• Password in JS state</text>
+
+  <!-- Screen: Admin -->
+  <rect x="280" y="218" width="240" height="100" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="400" y="238" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">AdminApp</text>
+  <text x="400" y="254" text-anchor="middle" font-size="9" fill="#64748b">screen = "admin"</text>
+  <line x1="300" y1="262" x2="500" y2="262" stroke="#e2e8f0"/>
+  <text x="295" y="278" font-size="9" fill="#475569">• Tab: "projects" | "results"</text>
+  <text x="295" y="292" font-size="9" fill="#475569">• ProjectEditor (CRUD)</text>
+  <text x="295" y="306" font-size="9" fill="#dc2626">• No session — just state flip</text>
+
+  <!-- Screen: Login -->
+  <rect x="545" y="218" width="180" height="100" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="635" y="238" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">LearnerLogin</text>
+  <text x="635" y="254" text-anchor="middle" font-size="9" fill="#64748b">screen = "login"</text>
+  <line x1="565" y1="262" x2="705" y2="262" stroke="#e2e8f0"/>
+  <text x="560" y="278" font-size="9" fill="#475569">• Name text input</text>
+  <text x="560" y="292" font-size="9" fill="#dc2626">• No auth — any string</text>
+  <text x="560" y="306" font-size="9" fill="#dc2626">• No validation/sanitize</text>
+
+  <!-- Screen: Course -->
+  <rect x="750" y="218" width="200" height="100" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <text x="850" y="238" text-anchor="middle" font-size="12" font-weight="700" fill="#0f172a">UserCourse</text>
+  <text x="850" y="254" text-anchor="middle" font-size="9" fill="#64748b">screen = "course"</text>
+  <line x1="770" y1="262" x2="930" y2="262" stroke="#e2e8f0"/>
+  <text x="765" y="278" font-size="9" fill="#475569">• Dashboard + Lesson views</text>
+  <text x="765" y="292" font-size="9" fill="#475569">• Slide renderer + Quiz</text>
+  <text x="765" y="306" font-size="9" fill="#dc2626">• dangerouslySetInnerHTML</text>
+
+  <!-- Navigation arrows between screens -->
+  <path d="M255,268 L278,268" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <text x="262" y="262" font-size="7" fill="#94a3b8">pw✓</text>
+
+  <path d="M520,268 L543,268" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <text x="526" y="262" font-size="7" fill="#94a3b8">select</text>
+
+  <path d="M725,268 L748,268" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <text x="730" y="262" font-size="7" fill="#94a3b8">name</text>
+
+  <!-- Sub-components row -->
+  <rect x="55" y="335" width="130" height="36" rx="6" fill="#fefce8" stroke="#fde68a"/>
+  <text x="120" y="357" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">RichEditor (Quill)</text>
+
+  <rect x="200" y="335" width="110" height="36" rx="6" fill="#fefce8" stroke="#fde68a"/>
+  <text x="255" y="357" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">QuizBuilder</text>
+
+  <rect x="325" y="335" width="110" height="36" rx="6" fill="#fefce8" stroke="#fde68a"/>
+  <text x="380" y="357" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">MediaPicker</text>
+
+  <rect x="450" y="335" width="80" height="36" rx="6" fill="#f0f9ff" stroke="#bae6fd"/>
+  <text x="490" y="357" text-anchor="middle" font-size="10" font-weight="600" fill="#0369a1">Btn</text>
+
+  <rect x="545" y="335" width="80" height="36" rx="6" fill="#f0f9ff" stroke="#bae6fd"/>
+  <text x="585" y="357" text-anchor="middle" font-size="10" font-weight="600" fill="#0369a1">TInput</text>
+
+  <rect x="640" y="335" width="80" height="36" rx="6" fill="#f0f9ff" stroke="#bae6fd"/>
+  <text x="680" y="357" text-anchor="middle" font-size="10" font-weight="600" fill="#0369a1">Confirm</text>
+
+  <rect x="735" y="335" width="80" height="36" rx="6" fill="#f0f9ff" stroke="#bae6fd"/>
+  <text x="775" y="357" text-anchor="middle" font-size="10" font-weight="600" fill="#0369a1">Spin / Err</text>
+
+  <text x="55" y="413" font-size="9" font-weight="600" fill="#94a3b8">JS DB FUNCTIONS (all use same anon key):</text>
+  <text x="55" y="428" font-size="9" fill="#475569" font-family="'SF Mono',monospace">dbProjects()  dbSaveProject(p)  dbDeleteProject(id)  dbUsers(pid)  dbSaveUser(name,pid,completed,qa)  dbAdminPw()</text>
+
+  <!-- ═══════════════ SUPABASE LAYER ═══════════════ -->
+  <rect x="30" y="460" width="1140" height="230" rx="10" fill="#fff" stroke="#e2e8f0" filter="url(#shadow)"/>
+  <text x="55" y="482" font-size="10" font-weight="700" fill="#94a3b8" letter-spacing="1.5">SUPABASE — cvngrkb...supabase.co (PostgreSQL + Storage)</text>
+
+  <!-- Table: projects -->
+  <rect x="55" y="498" width="300" height="170" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <rect x="55" y="498" width="300" height="28" rx="8" fill="#1e293b"/>
+  <rect x="55" y="518" width="300" height="8" fill="#1e293b"/>
+  <text x="205" y="517" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">projects</text>
+  <text x="70" y="543" font-size="10" font-weight="600" fill="#0f172a">id</text>
+  <text x="160" y="543" font-size="9" fill="#64748b">string (PK) — e.g. "on7xtn0"</text>
+  <text x="70" y="560" font-size="10" font-weight="600" fill="#0f172a">created_at</text>
+  <text x="160" y="560" font-size="9" fill="#64748b">timestamp</text>
+  <text x="70" y="577" font-size="10" font-weight="600" fill="#0f172a">data</text>
+  <text x="160" y="577" font-size="9" fill="#64748b">JSON blob — entire course tree:</text>
+  <text x="85" y="594" font-size="8.5" fill="#94a3b8" font-family="'SF Mono',monospace">{ title, subtitle, duration, level,</text>
+  <text x="85" y="607" font-size="8.5" fill="#94a3b8" font-family="'SF Mono',monospace">  chapters: [{ id, title, tier,</text>
+  <text x="85" y="620" font-size="8.5" fill="#94a3b8" font-family="'SF Mono',monospace">    slides: [{ heading, body(HTML),</text>
+  <text x="85" y="633" font-size="8.5" fill="#94a3b8" font-family="'SF Mono',monospace">      image, quizzes: [{question,</text>
+  <text x="85" y="646" font-size="8.5" fill="#94a3b8" font-family="'SF Mono',monospace">      options, correct}] }] }] }</text>
+  <rect x="55" y="654" width="300" height="14" rx="0 0 8 8" fill="#fef2f2"/>
+  <text x="205" y="664" text-anchor="middle" font-size="8" font-weight="600" fill="#dc2626">NO RLS — full CRUD via anon key</text>
+
+  <!-- Table: users -->
+  <rect x="390" y="498" width="300" height="170" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <rect x="390" y="498" width="300" height="28" rx="8" fill="#1e293b"/>
+  <rect x="390" y="518" width="300" height="8" fill="#1e293b"/>
+  <text x="540" y="517" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">users</text>
+  <text x="405" y="543" font-size="10" font-weight="600" fill="#0f172a">name</text>
+  <text x="495" y="543" font-size="9" fill="#64748b">string (composite PK with project_id)</text>
+  <text x="405" y="560" font-size="10" font-weight="600" fill="#0f172a">project_id</text>
+  <text x="495" y="560" font-size="9" fill="#64748b">string → projects.id (no FK)</text>
+  <text x="405" y="577" font-size="10" font-weight="600" fill="#0f172a">completed</text>
+  <text x="495" y="577" font-size="9" fill="#64748b">JSON — { slide_id: true }</text>
+  <text x="405" y="594" font-size="10" font-weight="600" fill="#0f172a">quiz_answers</text>
+  <text x="495" y="594" font-size="9" fill="#64748b">JSON — { slide_id: { q_id: idx } }</text>
+  <text x="405" y="611" font-size="10" font-weight="600" fill="#0f172a">last_seen</text>
+  <text x="495" y="611" font-size="9" fill="#64748b">timestamp — updated on every save</text>
+  <rect x="390" y="654" width="300" height="14" rx="0 0 8 8" fill="#fef2f2"/>
+  <text x="540" y="664" text-anchor="middle" font-size="8" font-weight="600" fill="#dc2626">NO RLS — all learner data exposed</text>
+
+  <!-- FK arrow -->
+  <path d="M390,555 L355,555" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrow)" stroke-dasharray="4,3"/>
+  <text x="362" y="550" font-size="7" fill="#94a3b8">project_id (no FK constraint)</text>
+
+  <!-- Table: admins -->
+  <rect x="725" y="498" width="190" height="108" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <rect x="725" y="498" width="190" height="28" rx="8" fill="#1e293b"/>
+  <rect x="725" y="518" width="190" height="8" fill="#1e293b"/>
+  <text x="820" y="517" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">admins</text>
+  <text x="740" y="543" font-size="10" font-weight="600" fill="#0f172a">id</text>
+  <text x="790" y="543" font-size="9" fill="#64748b">integer (PK) — always 1</text>
+  <text x="740" y="560" font-size="10" font-weight="600" fill="#dc2626">password</text>
+  <text x="790" y="560" font-size="9" fill="#dc2626">string — "admin123" (plaintext)</text>
+  <rect x="725" y="592" width="190" height="14" rx="0 0 8 8" fill="#fef2f2"/>
+  <text x="820" y="602" text-anchor="middle" font-size="8" font-weight="600" fill="#dc2626">NO RLS — password readable by anyone</text>
+
+  <!-- Storage: cores-images -->
+  <rect x="950" y="498" width="195" height="108" rx="8" fill="#f8fafc" stroke="#cbd5e1"/>
+  <rect x="950" y="498" width="195" height="28" rx="8" fill="#1e293b"/>
+  <rect x="950" y="518" width="195" height="8" fill="#1e293b"/>
+  <text x="1047" y="517" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">cores-images (bucket)</text>
+  <text x="965" y="543" font-size="9" fill="#475569">File path: {uid}.{ext}</text>
+  <text x="965" y="560" font-size="9" fill="#475569">Cache: 3600s</text>
+  <text x="965" y="577" font-size="9" fill="#475569">Public URLs via getPublicUrl()</text>
+  <rect x="950" y="592" width="195" height="14" rx="0 0 8 8" fill="#fef2f2"/>
+  <text x="1047" y="602" text-anchor="middle" font-size="8" font-weight="600" fill="#dc2626">Public read, anon upload</text>
+
+  <!-- ═══════════════ DATA FLOW ARROWS ═══════════════ -->
+  <!-- Client → Supabase -->
+  <path d="M155,440 L155,496" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M400,440 L540,496" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M540,440 L540,496" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+  <path d="M680,440 L820,496" stroke="#dc2626" stroke-width="1.5" fill="none" marker-end="url(#arrow-red)" stroke-dasharray="4,3"/>
+  <path d="M380,370 L1047,496" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- ═══════════════ ATTACKER LAYER ═══════════════ -->
+  <rect x="30" y="710" width="1140" height="170" rx="10" fill="#fff" stroke="#fecaca" filter="url(#shadow)"/>
+  <text x="55" y="732" font-size="10" font-weight="700" fill="#dc2626" letter-spacing="1.5">ATTACK SURFACE — No authentication required for any operation</text>
+
+  <!-- Attack 1 -->
+  <rect x="55" y="745" width="250" height="55" rx="6" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="180" y="764" text-anchor="middle" font-size="10" font-weight="700" fill="#991b1b">1. Read password from bundle</text>
+  <text x="180" y="779" text-anchor="middle" font-size="8.5" fill="#dc2626">DevTools → Sources → "admin123"</text>
+  <text x="180" y="792" text-anchor="middle" font-size="8.5" fill="#dc2626">OR curl admins table → plaintext</text>
+
+  <!-- Attack 2 -->
+  <rect x="325" y="745" width="250" height="55" rx="6" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="450" y="764" text-anchor="middle" font-size="10" font-weight="700" fill="#991b1b">2. Bypass auth entirely</text>
+  <text x="450" y="779" text-anchor="middle" font-size="8.5" fill="#dc2626">Console: setScreen("admin")</text>
+  <text x="450" y="792" text-anchor="middle" font-size="8.5" fill="#dc2626">OR use anon key for direct API calls</text>
+
+  <!-- Attack 3 -->
+  <rect x="595" y="745" width="250" height="55" rx="6" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="720" y="764" text-anchor="middle" font-size="10" font-weight="700" fill="#991b1b">3. Scrape all data</text>
+  <text x="720" y="779" text-anchor="middle" font-size="8.5" fill="#dc2626">curl projects?select=* → full courses</text>
+  <text x="720" y="792" text-anchor="middle" font-size="8.5" fill="#dc2626">curl users?select=* → all learner data</text>
+
+  <!-- Attack 4 -->
+  <rect x="865" y="745" width="280" height="55" rx="6" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="1005" y="764" text-anchor="middle" font-size="10" font-weight="700" fill="#991b1b">4. Inject XSS / destroy data</text>
+  <text x="1005" y="779" text-anchor="middle" font-size="8.5" fill="#dc2626">UPSERT slide body with &lt;script&gt; payload</text>
+  <text x="1005" y="792" text-anchor="middle" font-size="8.5" fill="#dc2626">DELETE any row in any table</text>
+
+  <!-- Attack chain arrows -->
+  <path d="M305,772 L323,772" stroke="#dc2626" stroke-width="1.5" fill="none" marker-end="url(#arrow-red)"/>
+  <path d="M575,772 L593,772" stroke="#dc2626" stroke-width="1.5" fill="none" marker-end="url(#arrow-red)"/>
+  <path d="M845,772 L863,772" stroke="#dc2626" stroke-width="1.5" fill="none" marker-end="url(#arrow-red)"/>
+
+  <!-- Attack arrows up to Supabase -->
+  <path d="M180,745 L180,670" stroke="#dc2626" stroke-width="1" fill="none" marker-end="url(#arrow-red)" stroke-dasharray="3,3"/>
+  <path d="M450,745 L450,670" stroke="#dc2626" stroke-width="1" fill="none" marker-end="url(#arrow-red)" stroke-dasharray="3,3"/>
+  <path d="M720,745 L300,670" stroke="#dc2626" stroke-width="1" fill="none" marker-end="url(#arrow-red)" stroke-dasharray="3,3"/>
+  <path d="M1005,745 L1047,614" stroke="#dc2626" stroke-width="1" fill="none" marker-end="url(#arrow-red)" stroke-dasharray="3,3"/>
+
+  <!-- Legend -->
+  <rect x="55" y="818" width="1090" height="44" rx="6" fill="#f1f5f9" stroke="#e2e8f0"/>
+  <line x1="75" y1="840" x2="105" y2="840" stroke="#64748b" stroke-width="1.5"/>
+  <circle cx="105" cy="840" r="3" fill="#64748b"/>
+  <text x="112" y="844" font-size="9" fill="#475569">Normal data flow</text>
+
+  <line x1="215" y1="840" x2="245" y2="840" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <circle cx="245" cy="840" r="3" fill="#dc2626"/>
+  <text x="252" y="844" font-size="9" fill="#dc2626">Attack vector</text>
+
+  <line x1="345" y1="840" x2="375" y2="840" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <circle cx="375" cy="840" r="3" fill="#64748b"/>
+  <text x="382" y="844" font-size="9" fill="#475569">Implicit relationship (no FK)</text>
+
+  <rect x="500" y="832" width="12" height="12" rx="2" fill="#fef2f2" stroke="#fecaca"/>
+  <text x="518" y="843" font-size="9" fill="#dc2626">Vulnerability</text>
+
+  <rect x="600" y="832" width="12" height="12" rx="2" fill="#1e293b"/>
+  <text x="618" y="843" font-size="9" fill="#475569">Table header</text>
+
+  <rect x="700" y="832" width="12" height="12" rx="2" fill="#fefce8" stroke="#fde68a"/>
+  <text x="718" y="843" font-size="9" fill="#475569">Rich sub-component</text>
+
+  <rect x="830" y="832" width="12" height="12" rx="2" fill="#f0f9ff" stroke="#bae6fd"/>
+  <text x="848" y="843" font-size="9" fill="#475569">UI primitive</text>
+
+  <text x="950" y="843" font-size="9" fill="#94a3b8">All data confirmed via live API queries — April 2026</text>
+</svg>
