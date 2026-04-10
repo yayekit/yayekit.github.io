@@ -1,62 +1,70 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420">
   <style>
-    .ink   { stroke: #2C2520; stroke-width: 6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .ink-thin { stroke: #2C2520; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .terra { fill: #9E4F2E; stroke: #2C2520; stroke-width: 3; }
-    .dot   { fill: #2C2520; }
-    .label { font-family: Georgia, serif; font-size: 17px; fill: #5C4F45; font-style: italic; }
-    .gap   { stroke: #8C7E6E; stroke-width: 4; fill: none; stroke-linecap: round; stroke-dasharray: 2 10; }
+    .ink       { stroke: #2C2520; stroke-width: 7; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .ink-thin  { stroke: #2C2520; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .dot       { fill: #2C2520; }
+    .terra     { fill: #9E4F2E; stroke: #2C2520; stroke-width: 3; }
+    .gap       { stroke: #8C7E6E; stroke-width: 5; fill: none; stroke-linecap: round; stroke-dasharray: 2 14; }
+    .label     { font-family: Georgia, serif; font-size: 18px; fill: #5C4F45; font-style: italic; }
+    .gap-label { font-family: Georgia, serif; font-size: 15px; fill: #8C7E6E; font-style: italic; }
   </style>
 
-  <rect width="800" height="400" fill="#F5F0E8"/>
+  <rect width="800" height="420" fill="#F5F0E8"/>
 
-  <!-- ── LEFT: tangled scribble = "data that exists" ─────────────── -->
-  <g transform="translate(150, 195)">
-    <!-- chaotic loop scribble -->
+  <!-- ─────── LEFT: chaotic tangle of raw data ─────── -->
+  <g transform="translate(150, 200)">
+    <!-- one continuous wobbly scribble -->
     <path class="ink" d="
-      M -80,-30
-      C -60,-80 -10,-70 10,-40
-      C 35,-5 -20,5 -55,30
-      C -85,55 -30,75 15,55
-      C 60,35 80,-5 50,-35
-      C 25,-60 -40,-15 -10,15
-      C 15,40 65,30 80,0"/>
-    <!-- a few stray dots inside the tangle -->
-    <circle class="dot" r="5" cx="-50" cy="-15"/>
-    <circle class="dot" r="5" cx="20"  cy="-25"/>
-    <circle class="dot" r="5" cx="55"  cy="10"/>
-    <circle class="dot" r="5" cx="-15" cy="40"/>
-    <circle class="dot" r="5" cx="-65" cy="50"/>
-    <circle class="dot" r="5" cx="35"  cy="40"/>
+      M -85 -20
+      C -55 -75 0 -78 22 -38
+      C 42 -2 -10 8 -52 28
+      C -90 50 -42 82 8 60
+      C 56 38 78 -8 50 -38
+      C 22 -64 -38 -22 -8 12
+      C 16 38 60 32 78 4"/>
+    <!-- stray dots inside the tangle -->
+    <circle class="dot" r="6" cx="-58" cy="-22"/>
+    <circle class="dot" r="6" cx="22"  cy="-30"/>
+    <circle class="dot" r="6" cx="58"  cy="6"/>
+    <circle class="dot" r="6" cx="-12" cy="42"/>
+    <circle class="dot" r="6" cx="-72" cy="48"/>
+    <circle class="dot" r="6" cx="38"  cy="38"/>
+    <circle class="dot" r="6" cx="-38" cy="-2"/>
   </g>
-  <text class="label" x="150" y="320" text-anchor="middle">data that exists</text>
+  <text class="label" x="150" y="350" text-anchor="middle">data that exists</text>
 
-  <!-- ── MIDDLE: dashed gap with a small arrow ───────────────────── -->
-  <path class="gap" d="M 270 195 Q 400 175 540 195"/>
-  <path class="ink-thin" d="M 525 182 L 545 195 L 525 208"/>
-  <text class="label" x="405" y="170" text-anchor="middle" font-size="14">↑ the gap</text>
+  <!-- ─────── MIDDLE: dashed gap with arrow ─────── -->
+  <path class="gap" d="M 270 200 Q 400 168 540 200"/>
+  <path class="ink-thin" d="M 522 184 L 545 200 L 522 216"/>
+  <text class="gap-label" x="405" y="158" text-anchor="middle">the gap</text>
 
-  <!-- ── RIGHT: branching tree = "insight you can use" ───────────── -->
-  <g transform="translate(645, 200)">
-    <!-- trunk (slightly curved, not perfectly straight) -->
-    <path class="ink" d="M 0 90 C -2 50 2 10 0 -50"/>
-    <!-- left branches -->
-    <path class="ink" d="M 0 -10  C -20 -20 -40 -25 -58 -28"/>
-    <path class="ink" d="M 0  20  C -25  25 -45  40 -62  55"/>
-    <path class="ink" d="M 0 -35  C -18 -50 -30 -65 -42 -80"/>
-    <!-- right branches -->
-    <path class="ink" d="M 0 -10  C  20 -20  40 -25  58 -28"/>
-    <path class="ink" d="M 0  20  C  25  25  45  40  62  55"/>
-    <path class="ink" d="M 0 -35  C  18 -50  30 -65  42 -80"/>
-    <!-- terracotta dots at branch tips -->
-    <circle class="terra" r="9" cx="-58" cy="-28"/>
-    <circle class="terra" r="9" cx="-62" cy="55"/>
-    <circle class="terra" r="9" cx="-42" cy="-80"/>
-    <circle class="terra" r="9" cx="58"  cy="-28"/>
-    <circle class="terra" r="9" cx="62"  cy="55"/>
-    <circle class="terra" r="9" cx="42"  cy="-80"/>
-    <!-- crowning dot at top of trunk (the answer) -->
-    <circle class="terra" r="11" cx="0" cy="-58"/>
+  <!-- ─────── RIGHT: ball-tipped tree = insight ─────── -->
+  <g transform="translate(645, 295)">
+    <!-- trunk: wobbly upward -->
+    <path class="ink" d="M 0 0 C -3 -40 4 -80 -1 -160"/>
+
+    <!-- branches (alternating, each ending in a dot) -->
+    <!-- low-left -->
+    <path class="ink" d="M -1 -40 C -22 -42 -42 -34 -56 -22"/>
+    <circle class="dot" r="9" cx="-56" cy="-22"/>
+    <!-- low-right -->
+    <path class="ink" d="M 0 -55 C 22 -58 42 -50 60 -38"/>
+    <circle class="dot" r="9" cx="60" cy="-38"/>
+    <!-- mid-left -->
+    <path class="ink" d="M -1 -85 C -28 -90 -50 -82 -64 -68"/>
+    <circle class="dot" r="9" cx="-64" cy="-68"/>
+    <!-- mid-right -->
+    <path class="ink" d="M 0 -100 C 26 -106 50 -100 68 -86"/>
+    <circle class="dot" r="9" cx="68" cy="-86"/>
+    <!-- high-left -->
+    <path class="ink" d="M -1 -130 C -22 -138 -38 -140 -52 -134"/>
+    <circle class="dot" r="9" cx="-52" cy="-134"/>
+    <!-- high-right -->
+    <path class="ink" d="M 0 -142 C 20 -150 36 -154 50 -148"/>
+    <circle class="dot" r="9" cx="50" cy="-148"/>
+
+    <!-- crown — the terracotta accent -->
+    <circle class="terra" r="13" cx="-1" cy="-172"/>
   </g>
-  <text class="label" x="645" y="320" text-anchor="middle">insight you can use</text>
+  <text class="label" x="645" y="350" text-anchor="middle">insight you can use</text>
 </svg>

@@ -1,114 +1,88 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 540">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480">
   <style>
-    .ink       { stroke: #2C2520; stroke-width: 5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .ink-thin  { stroke: #2C2520; stroke-width: 3.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .frame-bronze { stroke: #9E4F2E; stroke-width: 6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .frame-silver { stroke: #8C7E6E; stroke-width: 6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .frame-gold   { stroke: #B5956A; stroke-width: 6; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .dot-bronze   { fill: #9E4F2E; stroke: #2C2520; stroke-width: 2; }
-    .dot-silver   { fill: #8C7E6E; stroke: #2C2520; stroke-width: 2; }
-    .dot-gold     { fill: #B5956A; stroke: #2C2520; stroke-width: 2; }
-    .layer-name { font-family: Georgia, serif; font-size: 22px; font-weight: 400; }
-    .layer-sub  { font-family: Georgia, serif; font-size: 13px; fill: #5C4F45; font-style: italic; }
-    .trust      { font-family: Georgia, serif; font-size: 14px; fill: #8C7E6E; font-style: italic; }
-    .flow       { stroke: #8C7E6E; stroke-width: 3; fill: none; stroke-linecap: round; stroke-dasharray: 2 8; }
+    .ink       { stroke: #2C2520; stroke-width: 7; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .ink-thin  { stroke: #2C2520; stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .ground    { stroke: #2C2520; stroke-width: 6; fill: none; stroke-linecap: round; }
+    .dot       { fill: #2C2520; }
+    .terra     { fill: #9E4F2E; stroke: #2C2520; stroke-width: 3; }
+    .flow      { stroke: #8C7E6E; stroke-width: 4; fill: none; stroke-linecap: round; stroke-dasharray: 2 12; }
+    .label     { font-family: Georgia, serif; font-size: 20px; fill: #2C2520; }
+    .sub       { font-family: Georgia, serif; font-size: 13px; fill: #5C4F45; font-style: italic; }
+    .trust     { font-family: Georgia, serif; font-size: 16px; fill: #8C7E6E; font-style: italic; }
   </style>
 
-  <rect width="800" height="540" fill="#F5F0E8"/>
+  <rect width="900" height="480" fill="#F5F0E8"/>
 
-  <!-- ─── GOLD (top) ──────────────────────────────────────────────── -->
-  <!-- imperfect rounded rectangle drawn as a path so it wobbles -->
-  <path class="frame-gold" d="
-    M 178 64
-    C 165 64 152 76 152 90
-    L 152 144
-    C 152 158 164 172 180 172
-    L 600 172
-    C 615 172 628 158 628 144
-    L 628 90
-    C 628 75 614 62 600 64
-    Z"/>
-  <text class="layer-name" x="180" y="100" fill="#6B4A2A">GOLD</text>
-  <text class="layer-sub"  x="180" y="123">shaped for the question</text>
-  <!-- gold mini-icon: a tidy bar chart -->
-  <g transform="translate(495, 145)">
-    <path class="ink-thin" d="M -50 0 L 70 0"/>
-    <path class="ink-thin" d="M -38 -2 L -38 -28"/>
-    <path class="ink-thin" d="M -16 -2 L -16 -42"/>
-    <path class="ink-thin" d="M  6 -2 L  6 -22"/>
-    <path class="ink-thin" d="M 28 -2 L 28 -52"/>
-    <path class="ink-thin" d="M 50 -2 L 50 -34"/>
-    <circle class="dot-gold" r="5" cx="-38" cy="-30"/>
-    <circle class="dot-gold" r="5" cx="-16" cy="-44"/>
-    <circle class="dot-gold" r="5" cx="6"   cy="-24"/>
-    <circle class="dot-gold" r="5" cx="28"  cy="-54"/>
-    <circle class="dot-gold" r="5" cx="50"  cy="-36"/>
+  <!-- ─────────── GROUND LINE (wobbly) ─────────── -->
+  <path class="ground" d="M 80 380 Q 250 384 450 379 T 820 381"/>
+
+  <!-- ═══════════ BRONZE — small sparse tree ═══════════ -->
+  <g transform="translate(180, 380)">
+    <!-- trunk -->
+    <path class="ink" d="M 0 0 C -2 -28 3 -56 -1 -88"/>
+    <!-- 3 sparse branches -->
+    <path class="ink" d="M 0 -32 C -16 -36 -28 -32 -36 -22"/>
+    <circle class="dot" r="8" cx="-36" cy="-22"/>
+    <path class="ink" d="M 0 -52 C 18 -56 30 -52 38 -42"/>
+    <circle class="dot" r="8" cx="38" cy="-42"/>
+    <path class="ink" d="M -1 -78 C -18 -84 -28 -82 -36 -76"/>
+    <circle class="dot" r="8" cx="-36" cy="-76"/>
+    <!-- crown -->
+    <circle class="dot" r="10" cx="-1" cy="-100"/>
   </g>
+  <text class="label" x="180" y="425" text-anchor="middle">BRONZE</text>
+  <text class="sub"   x="180" y="445" text-anchor="middle">raw &amp; immutable</text>
 
-  <!-- ─── SILVER (middle) ─────────────────────────────────────────── -->
-  <path class="frame-silver" d="
-    M 178 204
-    C 164 204 152 218 152 232
-    L 152 286
-    C 152 300 164 314 180 314
-    L 600 314
-    C 615 314 628 300 628 286
-    L 628 232
-    C 628 217 615 204 600 206
-    Z"/>
-  <text class="layer-name" x="180" y="242" fill="#5C4F45">SILVER</text>
-  <text class="layer-sub"  x="180" y="265">cleaned, deduped, rule-applied</text>
-  <!-- silver mini-icon: connected clusters -->
-  <g transform="translate(490, 270)">
-    <!-- cluster A -->
-    <path class="ink-thin" d="M -50 -10 L -28 -22 L -10 -10 L -28 4 Z"/>
-    <circle class="dot-silver" r="5" cx="-50" cy="-10"/>
-    <circle class="dot-silver" r="5" cx="-28" cy="-22"/>
-    <circle class="dot-silver" r="5" cx="-10" cy="-10"/>
-    <circle class="dot-silver" r="5" cx="-28" cy="4"/>
-    <!-- bridge -->
-    <path class="ink-thin" d="M -10 -10 C 8 -16 22 -8 36 -16"/>
-    <!-- cluster B -->
-    <path class="ink-thin" d="M 36 -16 L 56 -2 L 70 -22 L 50 -32 Z"/>
-    <circle class="dot-silver" r="5" cx="36" cy="-16"/>
-    <circle class="dot-silver" r="5" cx="56" cy="-2"/>
-    <circle class="dot-silver" r="5" cx="70" cy="-22"/>
-    <circle class="dot-silver" r="5" cx="50" cy="-32"/>
+  <!-- ═══════════ SILVER — medium tree ═══════════ -->
+  <g transform="translate(440, 380)">
+    <!-- trunk -->
+    <path class="ink" d="M 0 0 C 3 -45 -3 -90 1 -150"/>
+    <!-- 5 branches -->
+    <path class="ink" d="M 1 -38 C -22 -42 -40 -36 -52 -22"/>
+    <circle class="dot" r="9" cx="-52" cy="-22"/>
+    <path class="ink" d="M 0 -55 C 24 -60 42 -54 56 -40"/>
+    <circle class="dot" r="9" cx="56" cy="-40"/>
+    <path class="ink" d="M 0 -82 C -26 -88 -46 -82 -58 -68"/>
+    <circle class="dot" r="9" cx="-58" cy="-68"/>
+    <path class="ink" d="M 1 -102 C 26 -108 46 -100 60 -88"/>
+    <circle class="dot" r="9" cx="60" cy="-88"/>
+    <path class="ink" d="M 0 -130 C -20 -138 -34 -140 -46 -134"/>
+    <circle class="dot" r="9" cx="-46" cy="-134"/>
+    <!-- crown -->
+    <circle class="dot" r="11" cx="1" cy="-162"/>
   </g>
+  <text class="label" x="440" y="425" text-anchor="middle">SILVER</text>
+  <text class="sub"   x="440" y="445" text-anchor="middle">cleaned &amp; rule-applied</text>
 
-  <!-- ─── BRONZE (bottom) ─────────────────────────────────────────── -->
-  <path class="frame-bronze" d="
-    M 178 346
-    C 164 346 152 360 152 374
-    L 152 428
-    C 152 442 164 456 180 456
-    L 600 456
-    C 615 456 628 442 628 428
-    L 628 374
-    C 628 359 615 346 600 348
-    Z"/>
-  <text class="layer-name" x="180" y="384" fill="#9E4F2E">BRONZE</text>
-  <text class="layer-sub"  x="180" y="407">raw, untouched, immutable</text>
-  <!-- bronze mini-icon: scattered raw dots -->
-  <g transform="translate(490, 410)">
-    <circle class="dot-bronze" r="5" cx="-52" cy="-20"/>
-    <circle class="dot-bronze" r="5" cx="-30" cy="-2"/>
-    <circle class="dot-bronze" r="5" cx="-12" cy="-28"/>
-    <circle class="dot-bronze" r="5" cx="6"   cy="-8"/>
-    <circle class="dot-bronze" r="5" cx="22"  cy="-30"/>
-    <circle class="dot-bronze" r="5" cx="42"  cy="-12"/>
-    <circle class="dot-bronze" r="5" cx="60"  cy="-26"/>
-    <circle class="dot-bronze" r="5" cx="-44" cy="2"/>
-    <circle class="dot-bronze" r="5" cx="34"  cy="6"/>
-    <circle class="dot-bronze" r="5" cx="68"  cy="-2"/>
+  <!-- ═══════════ GOLD — full tall tree with terracotta crown ═══════════ -->
+  <g transform="translate(720, 380)">
+    <!-- trunk -->
+    <path class="ink" d="M 0 0 C -3 -55 4 -120 -1 -220"/>
+    <!-- 7 branches, fuller -->
+    <path class="ink" d="M -1 -38 C -28 -44 -52 -38 -68 -22"/>
+    <circle class="dot" r="10" cx="-68" cy="-22"/>
+    <path class="ink" d="M 0 -58 C 30 -64 56 -56 74 -38"/>
+    <circle class="dot" r="10" cx="74" cy="-38"/>
+    <path class="ink" d="M -1 -88 C -32 -96 -58 -88 -76 -70"/>
+    <circle class="dot" r="10" cx="-76" cy="-70"/>
+    <path class="ink" d="M 0 -110 C 32 -118 58 -110 78 -90"/>
+    <circle class="dot" r="10" cx="78" cy="-90"/>
+    <path class="ink" d="M -1 -140 C -28 -150 -52 -150 -68 -134"/>
+    <circle class="dot" r="10" cx="-68" cy="-134"/>
+    <path class="ink" d="M 0 -162 C 26 -172 48 -172 64 -156"/>
+    <circle class="dot" r="10" cx="64" cy="-156"/>
+    <path class="ink" d="M -1 -190 C -20 -200 -32 -204 -42 -198"/>
+    <circle class="dot" r="10" cx="-42" cy="-198"/>
+    <!-- crown — THE accent -->
+    <circle class="terra" r="16" cx="-1" cy="-238"/>
   </g>
+  <text class="label" x="720" y="425" text-anchor="middle">GOLD</text>
+  <text class="sub"   x="720" y="445" text-anchor="middle">shaped for the question</text>
 
-  <!-- ─── flow arrows up the right side ──────────────────────────── -->
-  <path class="flow" d="M 668 388 C 670 360 670 340 668 314"/>
-  <path class="flow" d="M 668 246 C 670 220 670 198 668 172"/>
-  <path class="ink-thin" d="M 660 318 L 668 304 L 676 318"/>
-  <path class="ink-thin" d="M 660 176 L 668 162 L 676 176"/>
-
-  <!-- trust label -->
-  <text class="trust" x="700" y="280" transform="rotate(-90 700 280)" text-anchor="middle">progression of trust →</text>
+  <!-- ─────── progression-of-trust dashed flow under the trees ─────── -->
+  <path class="flow" d="M 230 400 Q 310 408 380 400"/>
+  <path class="ink-thin" d="M 366 392 L 384 400 L 366 408"/>
+  <path class="flow" d="M 500 400 Q 590 408 660 400"/>
+  <path class="ink-thin" d="M 646 392 L 664 400 L 646 408"/>
+  <text class="trust" x="450" y="475" text-anchor="middle">progression of trust →</text>
 </svg>
